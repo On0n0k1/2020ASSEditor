@@ -4,7 +4,7 @@
     # I wrote a lot more here yesterday. But accidentaly told git to pull instead of push what was written...
 
 # 2020ASSEditor
-Editor for SubStation Alpha format subtitle files. 
+Editor for SubStation Alpha (.ass) format subtitle files. 
 
 
 ## How it works

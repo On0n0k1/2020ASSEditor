@@ -17,6 +17,16 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 """
 
 
+__author__ = "Lucas Alessandro do Carmo Lemos"
+__copyright__ = "Copyright (C) 2020 Lucas Alessandro do Carmo Lemos"
+__license__ = "MIT"
+__credits__ = []
+__version__ = "0.1.1"
+__maintainer__ = "Lucas Alessandro do Carmo Lemos"
+__email__ = "stiltztinkerstein@gmail.com"
+__status__ = (["Prototype", "Development", "Production"])[2]
+
+
 class SimpleLine:
     """ A single line of the text file.
 

@@ -16,30 +16,15 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-# import sys
-# loadPath = r"""C:\Users\Clarund\Documents\Programming\Python\EditorSSA"""
 
-# if r"""C:\Users\Clarund\Documents\Programming\Python\EditorSSA""" in sys.path:
-#     pass
-# else:
-#    sys.path.append(r"""C:\Users\Clarund\Documents\Programming\Python\EditorSSA""")
-# """ How to setup EditorSSA as source root for importing in Pycharm:
-#     Go to:
-#
-#         File -> Settings
-#
-#         Select
-#         Build, Execution, Deployment -> Console -> Python Console
-#
-#             Make sure that "Add source roots to PYTHONPATH" is marked.
-#
-#     Right click "EditorSSA" In the Project window, left of the screen, go to "Mark directory as", then "Mark as
-#     sources root".
-#
-#     Last Note: I forgot which to use, so I set both EditorSSA and Dados as sources root. If things go south. Try that.
-#
-#     """
-
+__author__ = "Lucas Alessandro do Carmo Lemos"
+__copyright__ = "Copyright (C) 2020 Lucas Alessandro do Carmo Lemos"
+__license__ = "MIT"
+__credits__ = []
+__version__ = "0.1.1"
+__maintainer__ = "Lucas Alessandro do Carmo Lemos"
+__email__ = "stiltztinkerstein@gmail.com"
+__status__ = (["Prototype", "Development", "Production"])[2]
 
 from Dados.Events.Evento.Timing import Timing
 

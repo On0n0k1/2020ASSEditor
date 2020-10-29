@@ -9,12 +9,6 @@ Here is the order of the topics
 1 - [Script Info]
 2 - [V4Styles]
 3 - [Events]
-4 - [Fonts] 
-5 - [Graphics]
-
-The loader will read and send the lines to be saved according to each topic
-
-
 
 """
 __all__ = ["Events", "ScriptInfo", "V4Styles", "SubPackage", "ErrorPackage"]

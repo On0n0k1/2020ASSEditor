@@ -1,1 +1,1 @@
-__all__ = ["ScriptInfo.py"]
+__all__ = ["ScriptInfo"]

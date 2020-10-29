@@ -17,4 +17,4 @@ The loader will read and send the lines to be saved according to each topic
 
 
 """
-__all__ = ["Events", "ScriptInfo", "V4Styles", "SubPackage", "ErrorEditorSSA"]
+__all__ = ["Events", "ScriptInfo", "V4Styles", "SubPackage", "ErrorPackage"]

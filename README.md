@@ -52,7 +52,7 @@ traits that made Python so practical as a language. There's "duct tape" code to 
 * In the current version docs (3.8.6) for multiprocessing, it is admitted that using fork "context and start" method 
 may cause some issues. Good luck trying to find "what" errors may rise from using it. Fork is default for Unix systems.
 
-* All Multiprocessing calls need to be "protected" inside an if _\__name_\__ == '_\__main_\__' clause.
+* All Multiprocessing calls need to be "protected" inside an 'if \_\_name\_\_ == "\_\_main\_\_"' clause.
 
 * I wanted to create an iterator of methods that are eligible. Create a process that gets a function from this iterator.
  Do the operation. Return the result. And another process assigns the result to the main objects. A single method that 

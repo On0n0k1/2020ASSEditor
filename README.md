@@ -43,6 +43,35 @@ video.
 There is a folder for each one of these sections inside the folder 'Dados'. Each of these folders will also have the 
 class definitions for the elements they may have.
 
+Apart from these 3 main classes, there's one more with the name "SimpleLine". This object is intended to receive a 
+String line and check if it is in the format "{Type}:{Text}". If it's not, Type will be None and Text will be the whole 
+line. This class saves up a lot of code. And is used by the other classes when reading or saving the file.
+
+V4Styles and Events both need a line named "Format: ". This line tells what each column stores. Currently, if the 
+project read a Style or Event without reading "Format:", it will raise an exception. V4Styles doesn't have a limited 
+number of columns, but Events will always have 10 columns. Last column in Events must always be Text, so that it can 
+receive subsequent ',' as just part of it.
+
+Couldn't find clear documentation on what each of the columns in Styles are for. So just reading Strings. Couldn't find 
+clear documentation on what types of ScriptInfo headers may be read. So just reading Strings as well. Couldn't find 
+clear documentation on Event effects like Karaoke. So it's basically an empty object that prints as "Karaoke". There is 
+documentation on what commands we can add on Text, but implementing code for understanding each one individually will 
+cost a few hundreds of code lines. So just reading an object that store a String.
+
+Because of this, I ran into a wall after spending a reasonable amount of time writing a lot of code. Didn't want to 
+throw everything away and start from scratch with another project. So I'm keeping this project here just to help people 
+with understanding some of Python's core tools. Like my friends in my university.
+
+There are some classes people may find interesting. I really recommend taking a look on the 'Timing' class. It is 
+located in '\Dados\Events\Eventos\Timing.py'. It prints time in the format "H:MM:SS.CS". It can be turned into integer 
+as centiseconds. It can be turned into float as seconds. It also supports operations with integers and float. As well as  
+comparisons with these values. The file can be compiled directly. And it will run several lines of assert operations to 
+make sure that all the comparisons and operations will work properly.
+
+To summarize. SubPackage will use ScriptInfo, V4Styles and Events. When it reads a file, it will distribute each piece 
+of the text to it's children. For printing and saving, it will call it's children String formats too. Each object can be 
+incremented with more tools without making the rest of the code less readable. Later I will add the JSON for each of the
+objects below.
 
 ## How to contribute
 Until I get a job in development, I intend to not take contributions for the time being. Just to make sure that the 

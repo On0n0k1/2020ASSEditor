@@ -34,7 +34,14 @@ There's a 'download zip' bottom up there. But I prefer just using git instead.
 - git clone https://github.com/On0n0k1/2020ASSEditor.git
 
 ## How it works
-All the currently working code is inside the folder 'Dados'. 
+A .ass file is divided into 3 main sections:
+* Script Info: File header and metadata
+* V4+ Styles: Font and text styles that may be used by the subtitles
+* Events: Every event that happens during the video. Include subtitles, but may also have other effects like pictures or
+video. 
+
+There is a folder for each one of these sections inside the folder 'Dados'. Each of these folders will also have the 
+class definitions for the elements they may have.
 
 
 ## How to contribute
@@ -74,9 +81,8 @@ may cause some issues. Good luck trying to find "what" errors may rise from usin
 
 I wanted to create an iterator of methods that are eligible. Create a process that gets a function from this iterator.
 Do the operation. Return the result. And another process assigns the result to the main objects. A single method that 
-do all of this.
-
-But since it must be picklable. I have to create one method for each operation using multiprocessing.
+do all of this. But since it must be picklable. Generators, function objects, lambda objects and many other tools can't 
+be used. If the main tools for Python are not available, why not just code with c++ instead?
 
 From this I hope it is understandable that the code would be way too hard to read and use properly. Which is why I'm 
 currently learning how to use Ray framework. Updates will come later.

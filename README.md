@@ -6,9 +6,9 @@
 # 2020ASSEditor
 Editor for SubStation Alpha (.ass) format subtitle files. First main reason for this project is to add to my curriculum.
 Second main reason is for it to be easy to expand and read. Third main reason is for it to be a good example to use for 
-anyone studying python that want to check on a larger project. Even with 4000 lines of code, most of what this code is 
-doing is treating 'strings and numbers' in a useful way. It takes a large piece of text, splits into each of the 
-individual useful pieces of data and store them to be modified however the user wants.
+any python learner wanting to check on a larger project. Even with 4000 lines of code, most of what this code is doing 
+is treating 'strings and numbers' in a useful way. It takes a large piece of text, splits into each of the individual 
+useful pieces of data and store them to be modified however the user wants.
 
 The number of lines doesn't get in the way in terms of understanding what it does. There are the 'macro' objects 
 (ScriptInfo, V4Styles and Events), and the 'micro' objects that extend them. Each of these objects encompasses their own
@@ -23,13 +23,31 @@ delaying this until I can make an implementation that use the Ray multiprocessin
  
 Hopefully this readme will be useful in clearing every question the readers might have about the software.
 
-## How it works
-
 
 ## How to use the code
+There's a 'download zip' bottom up there. But I prefer just using git instead.
+
+- Install git
+- Open command prompt
+- Go to an empty folder that you want to copy using ls and cd
+- Do:
+- git clone https://github.com/On0n0k1/2020ASSEditor.git
+
+## How it works
+All the currently working code is inside the folder 'Dados'. 
 
 
-## Developer Note
+## How to contribute
+Until I get a job in development, I intend to not take contributions for the time being. Just to make sure that the 
+reader can see what I know in practice. As soon as I get a job and start getting more experience, I will allow others 
+to support this code's development.
+
+Nothing stops you from downloading this code and developing yourself. I just ask for credit in that case. My name is 
+Lucas Alessandro do Carmo Lemos, and my github account name is On0n0k1. I'm very grateful for those who use and mention
+the source.
+
+
+## Developer Extra Note
 The individual parts of the code are working. But since the process is limited to a single core, It is annoying to wait 
 for it through the CPU-intensive part of the process where it is going through all the subtitles checking and changing 
 all the wanted elements. If it takes 0.5 seconds for each subtitle to be edited, a file with 600 lines would take 5 

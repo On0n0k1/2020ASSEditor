@@ -42,6 +42,8 @@ class Effect:
 
         Usually empty. But can have one of 3 transition effects from SSA v4.x
 
+        To clarify, each event will store only one Effect instance. It can't have more than 1.
+
         Names are case sensitive. Effects are Banner, Karaoke and Scroll. Check each file for more info about the names
         and args.
 

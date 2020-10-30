@@ -23,8 +23,17 @@ delaying this until I can make an implementation that use the Ray multiprocessin
  
 Hopefully this readme will be useful in clearing every question the readers might have about the software.
 
+## Table of Contents
+* [Title](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
+* [How to use the code](https://github.com/On0n0k1/2020ASSEditor#how-to-use-the-code)
+* [How it works](https://github.com/On0n0k1/2020ASSEditor#how-it-works)
+* [How to contribute](https://github.com/On0n0k1/2020ASSEditor#how-to-contribute)
+* [Developer Extra Note](https://github.com/On0n0k1/2020ASSEditor#developer-extra-note)
+
 
 ## How to use the code
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+
 There's a 'download zip' bottom up there. But I prefer just using git instead.
 
 - Install git
@@ -34,6 +43,8 @@ There's a 'download zip' bottom up there. But I prefer just using git instead.
 - git clone https://github.com/On0n0k1/2020ASSEditor.git
 
 ## How it works
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+
 A .ass file is divided into 3 main sections:
 * Script Info: File header and metadata
 * V4+ Styles: Font and text styles that may be used by the subtitles
@@ -64,7 +75,7 @@ with understanding some of Python's core tools. Like my friends in my university
 
 There are some classes people may find interesting. I really recommend taking a look on the 'Timing' class. It is 
 located in '\Dados\Events\Eventos\Timing.py'. It prints time in the format "H:MM:SS.CS". It can be turned into integer 
-as centiseconds. It can be turned into float as seconds. It also supports operations with integers and float. As well as  
+as centiseconds. It can be turned into float as seconds. It also supports operations with integers and float. As well as
 comparisons with these values. The file can be compiled directly. And it will run several lines of assert operations to 
 make sure that all the comparisons and operations will work properly.
 
@@ -74,6 +85,8 @@ incremented with more tools without making the rest of the code less readable. L
 objects below.
 
 ## How to contribute
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+
 Until I get a job in development, I intend to not take contributions for the time being. Just to make sure that the 
 reader can see what I know in practice. As soon as I get a job and start getting more experience, I will allow others 
 to support this code's development.
@@ -84,6 +97,8 @@ the source.
 
 
 ## Developer Extra Note
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+
 The individual parts of the code are working. But since the process is limited to a single core, It is annoying to wait 
 for it through the CPU-intensive part of the process where it is going through all the subtitles checking and changing 
 all the wanted elements. If it takes 0.5 seconds for each subtitle to be edited, a file with 600 lines would take 5 

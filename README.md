@@ -72,13 +72,14 @@ may cause some issues. Good luck trying to find "what" errors may rise from usin
 
 * All Multiprocessing calls need to be "protected" inside an 'if \_\_name\_\_ == "\_\_main\_\_"' clause.
 
-* I wanted to create an iterator of methods that are eligible. Create a process that gets a function from this iterator.
- Do the operation. Return the result. And another process assigns the result to the main objects. A single method that 
- do all of this.
+I wanted to create an iterator of methods that are eligible. Create a process that gets a function from this iterator.
+Do the operation. Return the result. And another process assigns the result to the main objects. A single method that 
+do all of this.
 
-* But since it must be picklable. I have to create one method for each operation using multiprocessing.
+But since it must be picklable. I have to create one method for each operation using multiprocessing.
 
-* From this I hope I made my point that the code would be way too hard to read and use properly. Which is why I decided 
-to learn how to use the ray framework. I'm still reading and practicing it today (10/28/20). Once I'm confident with it,
-I will use it in "SubPackage".
+From this I hope it is understandable that the code would be way too hard to read and use properly. Which is why I'm 
+currently learning how to use Ray framework. Updates will come later.
+
+
 

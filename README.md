@@ -4,6 +4,8 @@
     # I wrote a lot more here yesterday. But accidentaly told git to pull instead of push what was written...
 
 # 2020ASSEditor
+[(Table of Contents)](https://github.com/On0n0k1/2020ASSEditor#table-of-contents)
+
 Editor for SubStation Alpha (.ass) format subtitle files. First main reason for this project is to add to my curriculum.
 Second main reason is for it to be easy to expand and read. Third main reason is for it to be a good example to use for 
 any python learner wanting to check on a larger project. Even with 4000 lines of code, most of what this code is doing 
@@ -32,7 +34,7 @@ Hopefully this readme will be useful in clearing every question the readers migh
 
 
 ## How to use the code
-[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
 
 There's a 'download zip' bottom up there. But I prefer just using git instead.
 
@@ -43,7 +45,7 @@ There's a 'download zip' bottom up there. But I prefer just using git instead.
 - git clone https://github.com/On0n0k1/2020ASSEditor.git
 
 ## How it works
-[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
 
 A .ass file is divided into 3 main sections:
 * Script Info: File header and metadata
@@ -85,7 +87,7 @@ incremented with more tools without making the rest of the code less readable. L
 objects below.
 
 ## How to contribute
-[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
 
 Until I get a job in development, I intend to not take contributions for the time being. Just to make sure that the 
 reader can see what I know in practice. As soon as I get a job and start getting more experience, I will allow others 
@@ -97,7 +99,7 @@ the source.
 
 
 ## Developer Extra Note
-[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor)
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
 
 The individual parts of the code are working. But since the process is limited to a single core, It is annoying to wait 
 for it through the CPU-intensive part of the process where it is going through all the subtitles checking and changing 

@@ -31,6 +31,7 @@ Hopefully this readme will be useful in clearing every question the readers migh
 * [How to use the code](https://github.com/On0n0k1/2020ASSEditor#how-to-use-the-code)
 * [How it works](https://github.com/On0n0k1/2020ASSEditor#how-it-works)
 * [How to contribute](https://github.com/On0n0k1/2020ASSEditor#how-to-contribute)
+* [License](https://github.com/On0n0k1/2020ASSEditor#license)
 * [Developer Extra Note](https://github.com/On0n0k1/2020ASSEditor#developer-extra-note)
 
 

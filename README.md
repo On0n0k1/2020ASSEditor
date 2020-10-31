@@ -99,6 +99,26 @@ Lucas Alessandro do Carmo Lemos, and my github account name is On0n0k1. I'm very
 the source.
 
 
+## License
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
+
+Copyright 2020 Lucas Alessandro do Carmo Lemos
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
 ## Developer Extra Note
 [(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
 
@@ -133,6 +153,5 @@ be used. If the main tools for Python are not available, why not just code with 
 
 From this I hope it is understandable that the code would be way too hard to read and use properly. Which is why I'm 
 currently learning how to use Ray framework. Updates will come later.
-
 
 

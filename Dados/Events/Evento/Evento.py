@@ -107,112 +107,47 @@ class Evento:
 
             :return: list of all useful attributes in this class."""
 
-        return ["__dir__", "condition", "updatetime", "getalleventtypes", "gettiposdisponiveis", "__init__", "__repr__",
+        return ["__dir__", "getalleventtypes", "gettiposdisponiveis", "__init__", "__repr__",
                 "seteventtype", "geteventtype", "__convertvalue__", "setdictvalue", "getdictvalue", "setvalues",
                 "getvalues", "setformato", "getformato", "readevent", "getlayer", "setlayer", "getmarked", "setmarked",
                 "getstart", "setstart", "getend", "setend", "getstyle", "setstyle", "getname", "setname", "getmarginl",
                 "setmarginl", "getmarginr", "setmarginr", "getmarginv", "setmarginv", "geteffect", "seteffect",
                 "gettext", "settext"]
 
-    def condition(self, method):
-        """ Run method using arguments [layer, name, start, end].
+    @staticmethod
+    def condition(value, check):
+        """ Makes specific condition checks on value based on what type it is.
 
-            if it returns True or False. Returns the value.
+            Integer or float: check is a tuple. use it to compare it to the interval (min, max). 'min' is inclusive.
+            Timing: same for Integer. Timing in float is in seconds. Timing in integer is in centiseconds.
+            Margin: Same as Integer.
+            String: check is String. Do 'value == check' only.
+            Style: Style in Events is just a String name. Does the same as above.
+            Effect: check is Effect. Checks if both objects have the same values.
+            Text: check is String. Tests if check is a part of value (not case-sensitive).
 
-            Else, raise ValueError.
 
-            :param method: function.
+            :param value: what value to check.
+            :param check: condition used to check.
             :return: True, False."""
 
-        if isinstance(method, type(types.FunctionType)) is False:
-            raise TypeError(f"{method!r} has to be a method or lambda.")
-        args = [self.getlayer(), self.getname(), self.getstart(), self.getend()]
-        result = method(args)
-        if (result is not True) and (result is not False):
-            raise ValueError(f"{result!r}: result was not boolean.")
-        else:
-            return result
+        def safecheck(argvalue, argname, argtype, methodname):
+            """ argvalue and argname must be instances of argtype"""
+            if isinstance(argname, argtype) is False:
+                raise TypeError(f"{argname} has to be an {argtype} instance.")
+            if isinstance(argvalue, argtype) is False:
+                raise TypeError(f"Called {methodname} but {argvalue} is not an {argtype} instance.")
 
-    @staticmethod
-    def condtest(a=None, b=None):
+        def checkeffect(effectcheck):
+            safecheck(value, effectcheck, Effect, "checkeffect")
 
-        if a is not None:
-            if True not in {isinstance(a, _) for _ in {int, float, Timing}}:
-                raise TypeError(f"{a} must be an Integer, Floating or Timing instance.")
+            # effect get method return a list that has the value and the name of the effect.
+            if value.getvalue()[1].lower() != effectcheck.getvalue()[1].lower():
+                return False
 
-        if b is not None:
-            if True not in {isinstance(b, _) for _ in {int, float, Timing}}:
-                raise TypeError(f"{b} must be an Integer, Floating or Timing instance.")
-
-        if a == b:
-            f"{a} == {b} no valid intervals to acquire"
-        argmin = a
-        argmax = b
-
-        def cond(value):
-            xmin = argmin
-            xmax = argmax
-
-            # test1 operation between value and xmin
-            # test2 operation between value and xmax
-            # returned value will be (test1) and (test2)
-
-            if (xmin is None) and (xmax is None):
-                raise ValueError(f"Both arguments are empty.")
-            if xmin is None:
-                test1 = True
-            else:
-                test1 = value > xmin
-            if xmax is None:
-                test2 = True
-            else:
-                test2 = value < xmax
-
-            return test1 and test2
-
-        return cond
-
-    def updatetime(self, arg, condition=None, pos=None):
-        """ Sum or subtract start and end by the value arg.
-
-            Reminder that integer are treated as centiseconds, and floats are treated as seconds.
-
-            :param arg: Integer or Float. Positive or negative.
-            :param condition: lambda or function that returns True or False based on what time it is currently at.
-            :param pos: index of the line used.
-            :return: self."""
-
-        if (isinstance(arg, int) or isinstance(arg, float)) is False:
-            raise TypeError(f"{arg} has to be integer or float")
-
-        __saida__ = f"{self.getdictvalue('start')} : {self.getdictvalue('end')}     ->      "
-        # __saida__ = f"{self.getstart()} : {self.getend()}    ->  "
-        # if condition is not None:
-        #     if condition(self.getstart()) is False:
-        #         return self
-
-        # print(f"{self.getstart()}")
-        if arg > 0:
-            newstart = Timing(Timing(self.getstart()) + arg)
-            newend = Timing(Timing(self.getend()) + arg)
-        elif arg < 0:
-            newstart = Timing(Timing(self.getstart()) - (-arg))
-            newend = Timing(Timing(self.getend()) - (-arg))
-        else:
-            return self
-
-        self.setdictvalue('start', newstart)
-        self.setdictvalue('end', newend)
-        # self.setstart(newstart)
-        # self.setend(newend)
-        __saida__ = f"{__saida__}{self.getdictvalue('start')} : {self.getdictvalue('end')}\n arg = {arg}    "
-        __saida__ = f"{__saida__} condition = {self.condtest(condition)(self.getstart())}"
-        # __saida__ = f"{__saida__}{self.getstart()} : {self.getend()}"
-        # if condition is not None:
-        #     print(__saida__)
-        if pos is not None:
-            return pos
-        return self
+        def checkstring(stringcheck):
+            safecheck(value, stringcheck, str, "checkstring")
+            return f"{stringcheck}" == f"{value}"
 
     @staticmethod
     def getalleventtypes():

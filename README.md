@@ -36,6 +36,8 @@ Hopefully this readme will be useful in clearing every question the readers migh
 
 There's a 'download zip' bottom up there. But I prefer just using git instead.
 
+- Install pycharm
+- Install a python environment like conda
 - Install git
 - Open command prompt
 - Go to an empty folder that you want to copy using ls and cd

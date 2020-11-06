@@ -2,3 +2,5 @@
 tests/
 .idea/
 **/__pycache__/
+# Output files are generated when tested. Avoiding making a mess.
+/InputOutput/Output/**

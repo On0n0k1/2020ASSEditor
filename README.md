@@ -42,9 +42,23 @@ There's a 'download zip' bottom up there. But I prefer just using git instead.
 - Do:
 - git clone https://github.com/On0n0k1/2020ASSEditor.git
 
+Now you have my project copied to your folder.
+I use pycharm. Here's how I set it up after cloning:
+
+Adding folders to source:
+- Right click 2020ASSEditor
+- Select "Mark Directory as" down at the bottom
+- Select "Mark as sources root"
+
+Disabling "Proofreading" in comments
+- Go to menu "Code" and select "Configure current file analysis..." or press ctrl+alt+shift+h
+- Select "Configure Inspections"
+- Disable "Proofreading" and "Typo" so it doesn't see my variable names in comments as misstypes
+
 ## How it works
 [(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
 
+### Data structure
 A .ass file is divided into 3 main sections:
 * Script Info: File header and metadata
 * V4+ Styles: Font and text styles that may be used by the subtitles
@@ -83,6 +97,19 @@ To summarize. SubPackage will use ScriptInfo, V4Styles and Events. When it reads
 of the text to it's children. For printing and saving, it will call it's children String formats too. Each object can be 
 incremented with more tools without making the rest of the code less readable. Later I will add the JSON for each of the
 objects below.
+
+### Interface
+3 New folders were added recently: "FileManagement", "InputOutput" and "UITools"
+- FileManagement is meant to make it easier to use path-related tools by the other classes. Instead of using very 
+unintuitive commands from os.path module, just use Filemanagement methods to do those tasks without going crazy trying 
+to debug.
+- InputOutput will have default folders for loading and saving files. The user can select another path to save/load. But
+for convenience, we have these. There's a file generated that was previously generated thanks to Aegisub in the input 
+folder for testing.
+- UITools is meant to be an optional interface for using the module. It was quickly coded using tkinter. Currently have 
+options for loading, saving and printing the file. But more will be added later. Once I learn how to develop a REST API 
+I will finish this interface with tools for editing the files. Each object in the memory have the gets and sets for it, 
+we just need to apply it them the interface.
 
 ## How to contribute
 [(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)

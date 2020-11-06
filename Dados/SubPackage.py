@@ -20,6 +20,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 """
 
 # import time
+import os
 
 # from concurrent.futures import ProcessPoolExecutor
 
@@ -37,7 +38,7 @@ __author__ = "Lucas Alessandro do Carmo Lemos"
 __copyright__ = "Copyright (C) 2020 Lucas Alessandro do Carmo Lemos"
 __license__ = "MIT"
 __credits__ = []
-__version__ = "0.1.1"
+__version__ = "0.2.1"
 __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
@@ -63,10 +64,11 @@ class SubPackage:
             :return: String."""
         return f"{self.scriptinfo!r}\n{self.v4styles!r}\n{self.events!r}\n"
 
-    def savefile(self, arg):
+    def savefile(self, arg, overwrite=False):
         """ Save file into location 'arg'.
 
-            :param arg: String. File Path to save. Will not replace existing file.
+            :param arg: String. File Path to save. Will not replace existing file. Unless overwrite == True.
+            :param overwrite: Forces method to overwrite existing file.
             :return: True if Save was successful. False if file already exists."""
 
         if isinstance(arg, str) is False:
@@ -76,7 +78,17 @@ class SubPackage:
                 f.write(f"{self!r}")
                 return True
         except FileExistsError:
-            return False
+            if overwrite:
+                if os.path.exists(arg):
+                    os.remove(arg)
+
+                    with open(arg, "x") as f:
+                        f.write(f"{self!r}")
+                        return True
+                else:
+                    raise ValueError(f"File exists, but file doesn't exist. This exception shouldn't ever happen...")
+            else:
+                return False
 
     # Not sure yet how to implement formatted strings with different results. Gonna study it more later
     def __str__(self):
@@ -110,21 +122,21 @@ class SubPackage:
             raise ValueError(f"{arg} file could not be found.")
         return self
 
-
-if __name__ == "__main__":
-
-    x = SubPackage()
-    x.loadfile(r"/media/clarund/Videos/[Beatrice-Raws] Jormungand [BDRip 1920x1080 x264 FLAC]/[Beatrice-Raws] "
-               + r"Jormungand 01 [BDRip 1920x1080 x264 FLAC].ass")
-
-    # Use {name!r} for the formatted version. As in the version that should be printed on the file
-    # Use {name!s} for the unformatted "unofficial" version. Used for getting more details about the lines.
-    print(f"{x!r}")
-    # print(f"{x!s}")
-
-    if x.savefile(r"/media/clarund/Videos/[Beatrice-Raws] Jormungand [BDRip 1920x1080 x264 FLAC]/Whatan.ass"):
-        print("Saved")
-    else:
-        print("File already exists")
-
-    # print(f"{x.scriptinfo}")
+#
+# if __name__ == "__main__":
+#
+#     x = SubPackage()
+#     # x.loadfile(r"/media/clarund/Videos/[Beatrice-Raws] Jormungand [BDRip 1920x1080 x264 FLAC]/[Beatrice-Raws] "
+#     #            + r"Jormungand 01 [BDRip 1920x1080 x264 FLAC].ass")
+#
+#     # Use {name!r} for the formatted version. As in the version that should be printed on the file
+#     # Use {name!s} for the unformatted "unofficial" version. Used for getting more details about the lines.
+#     print(f"{x!r}")
+#     # print(f"{x!s}")
+#
+#     if x.savefile(r"/media/clarund/Videos/[Beatrice-Raws] Jormungand [BDRip 1920x1080 x264 FLAC]/Whatan.ass"):
+#         print("Saved")
+#     else:
+#         print("File already exists")
+#
+#     # print(f"{x.scriptinfo}")

@@ -21,17 +21,18 @@ __author__ = "Lucas Alessandro do Carmo Lemos"
 __copyright__ = "Copyright (C) 2020 Lucas Alessandro do Carmo Lemos"
 __license__ = "MIT"
 __credits__ = []
-__version__ = "0.1.1"
+__version__ = "0.2.1"
 __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
-from Dados.Events.Evento.Timing import Timing
+# from Dados.Events.Evento.Timing import Timing
+from FileManagement.FileManagement import FileManagement as File
+from UITools.UITools import UITools
+
 
 if __name__ == "__main__":
-    for _ in range(0, 5):
-        print(Timing([_]))
-        print(Timing([_, 0]))
-        print(Timing([_ + 2, 0, _]))
-        print(Timing([_, _ + 1, _ + 2, _ + 10]))
-        print("---")
+
+    IOpaths = File()
+    x = UITools(initialloaddir=IOpaths.getinputpath(), initialsavedir=IOpaths.getoutputpath())
+    # x.callback()

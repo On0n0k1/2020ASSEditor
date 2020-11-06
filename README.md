@@ -28,7 +28,6 @@ Hopefully this readme will be useful in clearing every question the readers migh
 * [Why I will not completely finish this project](https://github.com/On0n0k1/2020ASSEditor#why-i-will-not-completely-finish-this-project)
 * [License](https://github.com/On0n0k1/2020ASSEditor#license)
 * [Developer Extra Note](https://github.com/On0n0k1/2020ASSEditor#developer-extra-note)
-* [Latest addition](https://github.com/On0n0k1/2020ASSEditor#latest-addition)
 
 
 ## How to use the code

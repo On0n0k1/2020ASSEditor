@@ -29,7 +29,7 @@ from Dados.ScriptInfo.ScriptInfo import ScriptInfo
 from Dados.V4Styles.V4Styles import V4Styles
 from Dados.Events.Events import Events
 from Dados.SimpleLine.SimpleLine import SimpleLine
-from Dados.Events.Evento.Timing import Timing
+# from Dados.Events.Evento.Timing import Timing
 
 # Search for Epydoc, MIT LICENSE, Python Packages, PEP 0440 and RestructuredText
 

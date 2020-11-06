@@ -191,13 +191,3 @@ be used. If the main tools for Python are not available, why not just code with 
 
 From this I hope it is understandable that the code would be way too hard to read and use properly. Which is why I'm 
 currently learning how to use Ray framework. Updates will come later.
-
-## Latest addition
-[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
-
-Currently I'm creating an object for dealing with file management. It should be an object that selects a path for input 
-and output folders when created. And it will handle file loading and saving for the user. At first, I was thinking about
-letting it automatically generate an output file writing something like "{filename}{filenumber}" where {filenumber} is 
-the lowest available number in that folder. Therefore writing in order as in "attempt1", "attempt2", "attempt3" and so 
-on. For loading it was better to just use a file selector using Tkinter instead. So I'm currently reading the docs on 
-how to use the module.

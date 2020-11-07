@@ -28,11 +28,11 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 
 # from Dados.Events.Evento.Timing import Timing
 from FileManagement.FileManagement import FileManagement as File
-from UITools.UserInterface import UITools
+from UITools.UserInterface import UserInterface
 
 
 if __name__ == "__main__":
 
     IOpaths = File()
-    x = UITools(initialloaddir=IOpaths.getinputpath(), initialsavedir=IOpaths.getoutputpath())
+    x = UserInterface(initialloaddir=IOpaths.getinputpath(), initialsavedir=IOpaths.getoutputpath())
     # x.callback()

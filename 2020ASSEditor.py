@@ -28,7 +28,7 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 
 # from Dados.Events.Evento.Timing import Timing
 from FileManagement.FileManagement import FileManagement as File
-from UITools.UITools import UITools
+from UITools.UserInterface import UITools
 
 
 if __name__ == "__main__":

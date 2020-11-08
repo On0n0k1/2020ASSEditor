@@ -18,6 +18,12 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+from typing import Union
+from typing import Iterator
+from typing import List
+from typing import Tuple
+from typing import Set
+
 # from Dados.ErrorPackage import ErrorPackage
 from Dados.ErrorPackage.ErrorPackage import Effectgetvalue
 from Dados.Events.Evento.Effect.Karaoke import Karaoke
@@ -38,33 +44,35 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 class Effect:
     """ Effect column of every event in 'Event' section.
 
-        Extends 'Dados.Events.Evento.Evento'.
+    Extends 'Dados.Events.Evento.Evento'.
 
-        Usually empty. But can have one of 3 transition effects from SSA v4.x
+    Usually empty. But can have one of 3 transition effects from SSA v4.x
 
-        To clarify, each event will store only one Effect instance. It can't have more than 1.
+    To clarify, each event will store only one Effect instance. It can't have more than 1.
 
-        Names are case sensitive. Effects are Banner, Karaoke and Scroll. Check each file for more info about the names
-        and args.
+    Names are case sensitive. Effects are Banner, Karaoke and Scroll. Check each file for more info about the names
+    and args.
 
-        Developer's Note: Not properly tested up to this day (01-10-2020)
+    Developer's Note: Not properly tested up to this day (01-10-2020)
 
-        Use dir to check methods."""
+    Use dir to check methods.
+    """
 
-    def __dir__(self):
+    def __dir__(self) -> Iterator[str]:
         return ["__dir__", "__doc__", "__init__", "__repr__", "clearvalue", "getvalue", "setvalue"]
 
-    def __init__(self, str1):
+    def __init__(self, str1: Union[str, 'Effect', None]) -> None:
         """ Construct the object with a String or another Effect object.
 
-            None: equals no no value.
+        None equals no no value.
 
-            String: "" equals to no value. Otherwise attempts to read it.
+        String "" equals to no value. Otherwise attempts to read it.
 
-            Effect: copy the values into this new one.
+        Effect copy the values into the new instance.
 
-            :param str1: Effect instance, String or None.
-            :raise Dados.ErrorPackage.ErrorPackage.Effectgetvalue: There are 2 or more values set, somehow..."""
+        :param str1: Effect instance, String or None.
+        :raise Dados.ErrorPackage.ErrorPackage.Effectgetvalue: There are 2 or more values set, somehow...
+        """
 
         if isinstance(str1, Effect):
             # getvalue returns a list with an object and the string name of the object.
@@ -85,7 +93,7 @@ class Effect:
                 else:
                     self.setvalue(f"{str1}")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ String in the same format as the text file.
 
             Used for saving.
@@ -97,43 +105,48 @@ class Effect:
             return ""
         return f"{_}"
 
-    def __del__(self):
+    def __del__(self) -> None:
+        """ Making sure that the stored class from this object will be deleted as well."""
         self.clearvalue()
 
-    def getvalue(self):
+    def getvalue(self) -> Tuple[Union[None, Karaoke, Banner, Scroll], str]:
         """ Returns the effect value as a list with 2 elements.
 
-            First element is the object itself. Second is the lowercase name of the object.
+        First element is the object itself. Second is the lowercase name of the object.
 
-            [None, ""] No value stored.
+        [None, ""] No value stored.
 
-            [Karaoke, "Karaoke"] Karaoke from 'Dados.Events.Evento.Effect.Karaoke'
+        [Karaoke, "Karaoke"] Karaoke from 'Dados.Events.Evento.Effect.Karaoke'
 
-            [Banner, "Banner"]  Banner from 'Dados.Events.Evento.Effect.Banner'
+        [Banner, "Banner"]  Banner from 'Dados.Events.Evento.Effect.Banner'
 
-            [Scroll, "Scroll"]  Scroll from 'Dados.Events.Evento.Effect.Scroll'
+        [Scroll, "Scroll"]  Scroll from 'Dados.Events.Evento.Effect.Scroll'
 
-            :return: list with 2 values. First element is the effect object. Second element is the effect string name.
-            :raise Dados.ErrorPackage.ErrorPackage.Effectgetvalue: There are 2 or more values set, somehow..."""
+        :return: list with 2 values. First element is the effect object. Second element is the effect string name.
+        :raise Dados.ErrorPackage.ErrorPackage.Effectgetvalue: There are 2 or more values set, somehow...
+        """
 
         values = [self.karaoke, self.banner, self.scroll]
         if values.count(None) == 3:
-            return [None, ""]
+            # Typing annotation is generating an error if I tell it to use 2 different parameters for set or list
+            # But if I use tuple, pycharm wants me to break pep8 by not using parentheses for the tuples
+            return None, "",
 
         # If there are 2 or more effects set simultaneously
         if values.count(None) < 2:
             raise Effectgetvalue(f"{values} ")
         if self.karaoke is not None:
-            return [Karaoke(self.karaoke), "Karaoke"]
+            return Karaoke(self.karaoke), "Karaoke",
         if self.banner is not None:
-            return [Banner(self.banner), "Banner"]
+            return Banner(self.banner), "Banner",
         if self.scroll is not None:
-            return [Scroll(self.scroll), "Scroll"]
+            return Scroll(self.scroll), "Scroll",
 
-    def clearvalue(self):
+    def clearvalue(self) -> 'Effect':
         """ Delete stored effect value.
 
-            :return: self."""
+        :return: self.
+        """
 
         # del self.scroll
         # del self.banner
@@ -141,17 +154,18 @@ class Effect:
         self.scroll, self.karaoke, self.banner, self.transitioneffect = [None, None, None, ""]
         return self
 
-    def setvalue(self, arg):
+    def setvalue(self, arg: Union[None, Karaoke, Banner, Scroll, str]) -> 'Effect':
         """ Sets the effect value.
 
-            None: Clear present value.
+        None: Clear present value.
 
-            Karaoke, Banner or Scroll object: Copy the object.
+        Karaoke, Banner or Scroll object: Copy the object.
 
-            String: Read the string value.
+        String: Read the string value.
 
-            :param arg: String, Banner, Scroll or Karaoke object. Can also be a None object to clear it.
-            :return: self."""
+        :param arg: String, Banner, Scroll or Karaoke object. Can also be a None object to clear it.
+        :return: self.
+        """
 
         if arg is None:
             return self.clearvalue()

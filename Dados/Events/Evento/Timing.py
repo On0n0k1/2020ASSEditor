@@ -28,6 +28,10 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 
 __all__ = ["Timing"]
 
+from typing import Union
+from typing import List
+
+
 # from Dados.ErrorEditorSSA import ErrorEditorSSA
 from Dados.ErrorPackage.ErrorPackage import Timingnegativeerror
 
@@ -35,38 +39,39 @@ from Dados.ErrorPackage.ErrorPackage import Timingnegativeerror
 class Timing:
     """ Time format for SSA files f'{h}:{mm}:{ss}.{cs}'.
 
-        Extends 'Dados.Events.Evento.Evento'.
+    Extends 'Dados.Events.Evento.Evento'.
 
-        Usable methods:
+    Usable methods:
 
-        Timing(texto): constructor. Accepts String, list, Timing object, int, float or None as parameter.
+    Timing(texto): constructor. Accepts String, list, Timing object, int, float or None as parameter.
 
-        readTiming(string): static method. Receives a string representation of timing and return a list with the values.
+    readTiming(string): static method. Receives a string representation of timing and return a list with the values.
 
-        getTimes(): returns a list with each value of this object. [hours, minutes, seconds, centiSeconds]
+    getTimes(): returns a list with each value of this object. [hours, minutes, seconds, centiSeconds]
 
-        setTimes(list): assign this 4-integer list's values unto this object.
+    setTimes(list): assign this 4-integer list's values unto this object.
 
-        setHours(int): set hours.
+    setHours(int): set hours.
 
-        setMinutes(int): set minutes.
+    setMinutes(int): set minutes.
 
-        setSeconds(int): set seconds.
+    setSeconds(int): set seconds.
 
-        setCentiSeconds(int): set centiSeconds.
+    setCentiSeconds(int): set centiSeconds.
 
-        secondsToTime(valor): Abstract. Valor is an integer or float in seconds. Returns a list on this object's format.
+    secondsToTime(valor): Abstract. Valor is an integer or float in seconds. Returns a list on this object's format.
 
-        Operations:
+    Operations:
 
-        sum: self + other, other + self, self+=other. other can be Timing, list, integer or float.
+    sum: self + other, other + self, self+=other. other can be Timing, list, integer or float.
 
-        sub: self - other, other - self, self-=other. other can be Timing, list, integer or float.
+    sub: self - other, other - self, self-=other. other can be Timing, list, integer or float.
 
-        sub raises 'ErrorPackage.Timingnegativeerror' if subtraction results in a negative
-        time."""
+    sub raises 'ErrorPackage.Timingnegativeerror' if subtraction results in a negative
+    time.
+    """
 
-    def __dir__(self):
+    def __dir__(self) -> List[str]:
         """ Modified __dir__ to display only user-defined functions of this object."""
 
         return ['__add__', '__dir__', '__eq__', '__float__', '__ge__', '__gt__', '__hash__', '__iadd__', '__init__',
@@ -75,33 +80,38 @@ class Timing:
                 'minutes', 'readtiming', 'seconds', 'secondstotime', 'setcentiseconds', 'sethours', 'setminutes',
                 'setseconds', 'settimes']
 
-    def checknegativeset(self):
+    def checknegativeset(self) -> 'Timing':
         """ Any operation that turns this object into a negative time will turn it into 0 instead.
 
-            This method make it raise an error whenever it happens. Default state is "not raise the error".
+        This method make it raise an error whenever it happens. Default state is "not raise the error".
 
-            :return: self."""
+        :return: self.
+        """
+
         self.checknegative = True
+        return self
 
-    def checknegativeunset(self):
+    def checknegativeunset(self) -> 'Timing':
         """ Any operation that turns this object into a negative time will turn it into 0 instead.
 
-            This method makes it not raise an error whenever it happens. Which is already the default state.
+        This method makes it not raise an error whenever it happens. Which is already the default state.
 
-            :return: self."""
+        :return: self.
+        """
+
         self.checknegative = False
+        return self
 
     @staticmethod
-    def readtiming(texto):
+    def readtiming(texto: str) -> List[int]:
         """ Read a Time format of '0:00:00.00' and assign it's values to hours, minutes, seconds and centiseconds.
 
-            Abstract Method.
+        :param texto: String. f'{h}:{mm}:{ss}.{cs}'. Only 'hours' is allowed to have more digits.
+        :return: Integer list with size 4. As in [0, 0, 0, 0]. With each respective value.
 
-            :param texto: String. f'{h}:{mm}:{ss}.{cs}'. Only 'hours' is allowed to have more digits.
-            :return: Integer list with size 4. As in [0, 0, 0, 0]. With each respective value.
-
-            Called by __init__. Receive a string line representing timing. Check if it is readable, then convert the 4
-            values (hours, minutes, seconds, centiseconds) into a list. Before returning the list."""
+        Called by __init__. Receive a string line representing timing. Check if it is readable, then convert the 4
+        values (hours, minutes, seconds, centiseconds) into a list. Before returning the list.
+        """
 
         if isinstance(texto, str) is False:
             raise TypeError(f"{texto} not a String.")
@@ -139,11 +149,12 @@ class Timing:
         return anexar
 
     @staticmethod
-    def secondstotime(valor):
+    def secondstotime(valor: Union[int, float]) -> List[int]:
         """ Turn 'valor' in seconds to [h, mm, ss, cs] list format.
 
         :param valor: positive integer or float. Integer will be centiseconds. Float will be centiseconds.
-        :return: [h, mm, ss, cs] list of integers."""
+        :return: [h, mm, ss, cs] list of integers.
+        """
 
         if (isinstance(valor, int) or isinstance(valor, float)) is False:
             raise TypeError(f"{valor} must be an integer or float.")
@@ -176,25 +187,26 @@ class Timing:
         return [hours, minutes, seconds, centiseconds]
 
     @staticmethod
-    def _fitlista(lista):
+    def _fitlista(lista: List[int]) -> List[int]:
         """ Turns an integer list into a [h, mm, ss, cs] time format.
 
-            :param lista: Integer list. length between 0 and 4, inclusive.
-            :return: Integer list [hours, minutes, seconds, centiseconds].
+        :param lista: Integer list. length between 0 and 4, inclusive.
+        :return: Integer list [hours, minutes, seconds, centiseconds].
 
-            Called by __init__()
+        Called by __init__()
 
-            lista               ->      return
+        lista               ->      return
 
-            []                  ->      [0, 0, 0, 0]
+        []                  ->      [0, 0, 0, 0]
 
-            [x1]                ->      [0, 0, x1, 0]
+        [x1]                ->      [0, 0, x1, 0]
 
-            [x1, x2]            ->      [0, x1, x2, 0]
+        [x1, x2]            ->      [0, x1, x2, 0]
 
-            [x1, x2, x3]        ->      [x1, x2, x3, 0]
+        [x1, x2, x3]        ->      [x1, x2, x3, 0]
 
-            [x1, x2, x3, x4]    ->      [x1, x2, x3, x4]"""
+        [x1, x2, x3, x4]    ->      [x1, x2, x3, x4]
+        """
 
         if isinstance(lista, list) is False:
             raise TypeError(f"{lista} must be a list.")
@@ -216,22 +228,23 @@ class Timing:
             saida = [0, 0, lista[0], 0]
         return saida
 
-    def __init__(self, texto=None):
+    def __init__(self, texto: Union[str, List[int], 'Timing', int, float, None] = None):
         """ Constructor. Can receive 4 different types of arguments, or none at all.
 
-                If 'texto' is String: it will read the String in the same format as the text file.
+        If 'texto' is String: it will read the String in the same format as the text file.
 
-                If 'texto' is a list: it may have 1 to 4 integers. Being treated as:
-                    [0, 0, texto[0], 0]
-                    [0, texto[0], texto[1], 0]
-                    [texto[0], texto[1], texto[2], 0]
-                    [texto[0], texto[1], texto[2], texto[3]]
+        If 'texto' is a list: it may have 1 to 4 integers. Being treated as:
+            [0, 0, texto[0], 0]
+            [0, texto[0], texto[1], 0]
+            [texto[0], texto[1], texto[2], 0]
+            [texto[0], texto[1], texto[2], texto[3]]
 
-                If 'texto' is the same type of object as this: It will copy it's values.
+        If 'texto' is the same type of object as this: It will copy it's values.
 
-                If 'texto' is an integer, consider the value to be in centiseconds.
+        If 'texto' is an integer, consider the value to be in centiseconds.
 
-                If 'texto' is not in arguments: all values start with 0."""
+        If 'texto' is not in arguments: all values start with 0.
+        """
 
         if texto is not None:
             if True not in {isinstance(texto, _) for _ in (str, list, Timing, int, float)}:
@@ -254,17 +267,18 @@ class Timing:
             entrada = self.secondstotime(texto)
         self.settimes(entrada)
 
-    def gettimes(self):
+    def gettimes(self) -> List[int]:
         """ Return an integer list with this object values.
 
-        :return: [hours, minutes, seconds, centiSeconds]"""
+        :return: [hours, minutes, seconds, centiSeconds]
+        """
 
         return [self.hours, self.minutes, self.seconds, self.centiseconds]
 
-    def settimes(self, lista):
+    def settimes(self, lista: List[int]) -> 'Timing':
         """ Set this object's values to the integer list 'lista'.
 
-            :param lista: Integer lista. [hours, minutes, seconds, centiSeconds]
+            :param lista: Integer list. [hours, minutes, seconds, centiSeconds]
             :return: self."""
 
         if isinstance(lista, list) is not True:
@@ -282,11 +296,12 @@ class Timing:
         self.setcentiseconds(lista[3])
         return self
 
-    def sethours(self, horas):
+    def sethours(self, horas: int) -> 'Timing':
         """ Set hours.
 
-            :param horas: integer.
-            :return: self."""
+        :param horas: integer.
+        :return: self.
+        """
 
         if isinstance(horas, int) is False:
             raise TypeError(f"{horas} must be an integer")
@@ -297,11 +312,12 @@ class Timing:
         self.hours = horas
         return self
 
-    def setminutes(self, minutos):
+    def setminutes(self, minutos: int) -> 'Timing':
         """ Set minutes.
 
-            :param minutos: integer.
-            :return: self."""
+        :param minutos: integer.
+        :return: self.
+        """
 
         if isinstance(minutos, int) is False:
             raise TypeError(f"{minutos} must be an integer")
@@ -310,11 +326,12 @@ class Timing:
         self.minutes = minutos
         return self
 
-    def setseconds(self, segundos):
+    def setseconds(self, segundos: int) -> 'Timing':
         """ Set seconds.
 
-            :param segundos: integer.
-            :return: self."""
+        :param segundos: integer.
+        :return: self.
+        """
 
         if isinstance(segundos, int) is False:
             raise TypeError(f"{segundos} must be an integer")
@@ -323,11 +340,12 @@ class Timing:
         self.seconds = segundos
         return self
 
-    def setcentiseconds(self, centisegundos):
+    def setcentiseconds(self, centisegundos: int) -> 'Timing':
         """ Set centiseconds.
 
-            :param centisegundos: integer.
-            :return: self."""
+        :param centisegundos: integer.
+        :return: self.
+        """
 
         if isinstance(centisegundos, int) is False:
             raise TypeError(f"{centisegundos} must be an integer")
@@ -339,27 +357,28 @@ class Timing:
     def __hash__(self):
         return hash(int(self))
 
-    def __add__(self, other):
+    def __add__(self, other: Union['Timing', List[int], int, float]) -> 'Timing':
         """ The result of a sum operation with another object.
 
-            :param other: the other object. Can be Timing, list, integer or float.
-            :return: a new Timing object with the resulting values.
+        :param other: the other object. Can be Timing, list, integer or float.
+        :return: a new Timing object with the resulting values.
 
-            If other is a Timing object, sum both the object's values into the new one.
+        If other is a Timing object, sum both the object's values into the new one.
 
-            If other is a list, the sum method changes with the length (1 to 4):
+        If other is a list, the sum method changes with the length (1 to 4):
 
-            other = [x1]                [self.hours, self.minutes, self.seconds +x1, self.centiseconds]
+        other = [x1]                [self.hours, self.minutes, self.seconds +x1, self.centiseconds]
 
-            other = [x1, x2]            [self.hours, self.minutes + x1, self.seconds + x2, self.centiseconds]
+        other = [x1, x2]            [self.hours, self.minutes + x1, self.seconds + x2, self.centiseconds]
 
-            other = [x1, x2, x3]        [self.hours + x1, self.minutes + x2, self.seconds + x3, self.centiseconds]
+        other = [x1, x2, x3]        [self.hours + x1, self.minutes + x2, self.seconds + x3, self.centiseconds]
 
-            other = [x1, x2, x3, x4]    [self.hours + x1, self.minutes + x2, self.seconds + x3, self.centiseconds + x4]
+        other = [x1, x2, x3, x4]    [self.hours + x1, self.minutes + x2, self.seconds + x3, self.centiseconds + x4]
 
-            Other as an integer gets translated into centiseconds before incrementing.
+        Other as an integer gets translated into centiseconds before incrementing.
 
-            Other as a float gets translated into seconds before incrementing."""
+        Other as a float gets translated into seconds before incrementing.
+        """
 
         # If other is not one of these types, raise an error
         if True not in {isinstance(other, _) for _ in (Timing, list, int, float)}:
@@ -384,25 +403,26 @@ class Timing:
         return Timing(somatimes)
 
     @staticmethod
-    def _aftersum(somatimes):
+    def _aftersum(somatimes: List[int]) -> List[int]:
         """ Check minutes, seconds and centiseconds for values that went above their limit. Used after sum operation.
 
-            :param somatimes: integer list (4 elements). Resembling [h, mm, ss, cs].
-            :return: integer list. Resembling [h, mm, ss, cs]. Same object as somatimes.
+        :param somatimes: integer list (4 elements). Resembling [h, mm, ss, cs].
+        :return: integer list. Resembling [h, mm, ss, cs]. Same object as somatimes.
 
-            Called by __add__() method.
+        Called by __add__() method.
 
-            Returns fixed list:
+        Returns fixed list:
 
-            Assertains:
+        Assertains:
 
-            hours >= 0
+        hours >= 0
 
-            0 <= minutes <= 59
+        0 <= minutes <= 59
 
-            0 <= seconds <= 59
+        0 <= seconds <= 59
 
-            0 <= centiseconds <=99."""
+        0 <= centiseconds <=99.
+        """
 
         if isinstance(somatimes, list) is False:
             raise TypeError(f"{somatimes} has to be a list.")
@@ -430,23 +450,25 @@ class Timing:
         # somatimes[0], somatimes[1] = remainder(somatimes[0], somatimes[1], 60)
         return somatimes
 
-    def __radd__(self, other):
+    def __radd__(self, other: Union['Timing', List[int], int, float]) -> 'Timing':
         """ Operation other + self
 
-            :param other: the object this was summed with.
-            :return: self + other.
+        :param other: the object this was summed with.
+        :return: self + other.
 
-            This operation is commutative with all objects in which 'self + other' is implemented."""
+        This operation is commutative with all objects in which 'self + other' is implemented.
+        """
 
         return self + other
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: Union['Timing', List[int], int, float]) -> 'Timing':
         """ Operation self+=other
 
-            :param other: another object.
-            :return: self + other
+        :param other: another object.
+        :return: self + other
 
-            Does self = self + other. Then return another object with the same values as self. Doesn't return self."""
+        Does self = self + other. Then return another object with the same values as self. Doesn't return self.
+        """
 
         try:
             saida = Timing(self + other)
@@ -458,43 +480,46 @@ class Timing:
         self.settimes(saida.gettimes())
         return saida
 
-    def __sub__(self, other):
+    def __sub__(self, other: Union['Timing', List[int], int, float]) -> 'Timing':
         """ The result of a subtraction operation with another object.
 
-            :param other: the other object. Can be Timing, list, integer or float.
-            :return: a new Timing object with the result values.
+        :param other: the other object. Can be Timing, list, integer or float.
+        :return: a new Timing object with the result values.
 
-            If other is a Timing object, subtract both the object's values into the new one.
+        If other is a Timing object, subtract both the object's values into the new one.
 
-            If other is a list, the sum method changes with the length(1 to 4):
-                other = [x1]                [self.hours, self.minutes, self.seconds - x1, self.centiSeconds]
-                other = [x1, x2]            [self.hours, self.minutes - x1, self.seconds - x2, self.centiSeconds]
-                other = [x1, x2, x3]        [self.hours - x1, self.minutes - x2, self.seconds - x3, self.centiSeconds]
-                other = [x1, x2, x3, x4]    [self.hours - x1, self.minutes - x2, self.seconds-x3, self.centiSeconds- x4]
+        If other is a list, the sum method changes with the length(1 to 4):
+            other = [x1]                [self.hours, self.minutes, self.seconds - x1, self.centiSeconds]
+            other = [x1, x2]            [self.hours, self.minutes - x1, self.seconds - x2, self.centiSeconds]
+            other = [x1, x2, x3]        [self.hours - x1, self.minutes - x2, self.seconds - x3, self.centiSeconds]
+            other = [x1, x2, x3, x4]    [self.hours - x1, self.minutes - x2, self.seconds-x3, self.centiSeconds- x4]
 
-            Other as an integer will be treated as centiseconds.
+        Other as an integer will be treated as centiseconds.
 
-            Other as float will be treated as seconds.
+        Other as float will be treated as seconds.
 
-            :raise ErrorPackage.Timingnegativeerror by _afterSub(): If time becomes negative (hours < 0)."""
+        :raise ErrorPackage.Timingnegativeerror by _afterSub(): If time becomes negative (hours < 0). Calling
+        checknegativeset() will disable this exception and just turn it into 0 instead.
+        """
 
         # Checking if valid
         if True not in {isinstance(other, _) for _ in (Timing, list, int, float)}:
             raise TypeError(f"Operation only valid with Timing, list, integer or float.")
 
-        def aftersub(arg):
+        def aftersub(arg: List[int]) -> List[int]:
             """ Checks every column in the list for negative values and fix them.
 
-                :param arg: The Timing list to check. [h, mm, ss, cs] format.
-                :return: a fixed list.
-                :raise ErrorPackage.Timingnegativeerror: If time becomes negative (hours < 0)."""
+            :param arg: The Timing list to check. [h, mm, ss, cs] format.
+            :return: a fixed list.
+            :raise ErrorPackage.Timingnegativeerror: If time becomes negative (hours < 0).
+            """
 
             # Not sure if using this function is making the  code more readable
             # It used to be an independent function of this object,
             # so I made it local since it is intended to be used just here
             rangenum = 60
 
-            def nonnegative(firstnum, secondnum):
+            def nonnegative(firstnum: int, secondnum: int) -> List[int]:
                 """ While the digit is negative, pull 1 from the next 'house' and increment the digit by 'range'."""
                 while secondnum < 0:
                     secondnum += rangenum
@@ -532,58 +557,70 @@ class Timing:
             raise TypeError(f"Operation only valid with Timing, list, integer or float.")
         saida = [first[_] - second[_] for _ in range(4)]
         saida = aftersub(saida)
-        return saida
+        return Timing(saida)
 
-    def __rsub__(self, other):
+    def __rsub__(self, other: Union['Timing', List[int], int, float]) -> 'Timing':
         """ Operation other - self.
 
-            Operation is commutative. Therefore, other - self = self - other
+        Turning other into Timing and then proceeding with the operation.
 
-            :param other: the object self is subtracting with.
-            :return: self - other."""
-        return self - other
+        :param other: the object self is subtracting with.
+        :return: self - other.
+        """
+        try:
+            __x__ = Timing(other) - self
+        except ValueError:
+            raise ValueError(f"Operation: {other} - {self} is not supported.")
+        except TypeError:
+            raise TypeError(f"Operation: {other} - {self} is not supported.")
 
-    def __isub__(self, other):
+        return __x__
+
+    def __isub__(self, other: Union['Timing', List[int], int, float]) -> 'Timing':
         """ Operation self-=other.
 
-            :param other: Another object used for this operation.
-            :return: self - other."""
+        :param other: Another object used for this operation.
+        :return: self - other.
+        """
 
         try:
-            saida = Timing(self - other)
-        except TypeError as thingy:
-            raise TypeError(thingy.args)
-        except ValueError as otherthingy:
-            raise ValueError(otherthingy.args)
+            saida = self - Timing(other)
+        except TypeError:
+            raise TypeError(f"Operation: {other} -= {self} is not supported.")
+        except ValueError:
+            raise ValueError(f"Operation: {other} -= {self} is not supported.")
         self.settimes(saida.gettimes())
         return saida
 
-    def __int__(self):
+    def __int__(self) -> int:
         """ Integer representation of this object (centiseconds).
 
-            :return: Integer. This object's value in centiseconds."""
+        :return: Integer. This object's value in centiseconds.
+        """
 
         tempo = self.gettimes()
         seconds = tempo[0] * 360000 + tempo[1] * 6000 + tempo[2] * 100 + tempo[3]
         return int(seconds)
 
-    def __float__(self):
+    def __float__(self) -> float:
         """ Float representation of this object (seconds).
 
-            :return: Float. This object's value in seconds."""
+        :return: Float. This object's value in seconds.
+        """
 
         tempo = self.gettimes()
         seconds = float(tempo[0] * 3600 + tempo[1] * 60 + tempo[2]) + float(tempo[3])/100.0
         return seconds
 
-    def __eq__(self, other):
+    def __eq__(self, other: Union['Timing', int, float]) -> bool:
         """ Operation self == other.
 
-            :param other: Timing, Integer (seconds) or Float (seconds).
-            :return: Boolean."""
+        :param other: Timing, Integer (seconds) or Float (seconds).
+        :return: Boolean.
+        """
 
         if True not in {isinstance(other, _) for _ in [Timing, int, float]}:
-            raise TypeError(f"{type(self)} - {type(other)}  ->   operation is not supported.")
+            raise TypeError(f"{type(self)} == {type(other)}  ->   operation is not supported.")
 
         _a = self.gettimes()
         _b = Timing(other).gettimes()
@@ -593,11 +630,12 @@ class Timing:
             return True
         return False
 
-    def __lt__(self, other):
+    def __lt__(self, other: Union['Timing', int, float]) -> bool:
         """ Operation self < other.
 
-            :param other: Timing, Integer(centiseconds) or Float (seconds).
-            :return: Boolean."""
+        :param other: Timing, Integer(centiseconds) or Float (seconds).
+        :return: Boolean.
+        """
 
         if True not in {isinstance(other, _) for _ in [Timing, int, float]}:
             raise TypeError(f"{type(self)} - {type(other)}  ->  operation not supported for these types.")
@@ -605,10 +643,10 @@ class Timing:
         _a = self.gettimes()
         try:
             _b = Timing(other).gettimes()
-        except ValueError as thingy:
-            raise ValueError(thingy.args)
-        except TypeError as typethingy:
-            raise TypeError(typethingy.args)
+        except ValueError:
+            raise ValueError(f"Operation {self} < {other} is not supported")
+        except TypeError:
+            raise TypeError(f"Operation {self} < {other} is not supported")
         for _ in range(4):
             if _a[_] != _b[_]:
                 if _a[_] < _b[_]:
@@ -617,38 +655,43 @@ class Timing:
         # reaching here means that a == b
         return False
 
-    def __le__(self, other):
+    def __le__(self, other: Union['Timing', int, float]) -> bool:
         """ Operation self <= other.
 
-            :param other: Timing, Integer (centiseconds) or Float (seconds)
-            :return: Boolean."""
+        :param other: Timing, Integer (centiseconds) or Float (seconds).
+        :return: Boolean.
+        """
+
         try:
             return (self == other) or (self < other)
-        except ValueError as ee:
-            raise ValueError(ee.args)
-        except TypeError as ettt:
-            raise TypeError(ettt.args)
+        except ValueError as leargs:
+            raise ValueError(leargs.args)
+        except TypeError as leargs:
+            raise TypeError(leargs.args)
 
-    def __ne__(self, other):
+    def __ne__(self, other: Union['Timing', int, float]) -> bool:
         """ Operation self != other
 
-            :param other: Timing, Integer (centiseconds) or Float (seconds).
-            :return: Boolean."""
+        :param other: Timing, Integer (centiseconds) or Float (seconds).
+        :return: Boolean.
+        """
+
         try:
             return not(self == other)
-        except ValueError as thingg:
-            raise ValueError(thingg.args)
-        except TypeError as tasukete:
-            raise TypeError(tasukete.args)
+        except ValueError:
+            raise ValueError(f"Operation {self} != {other} is not supported")
+        except TypeError:
+            raise TypeError(f"Operation {self} != {other} is not supported")
 
-    def __gt__(self, other):
+    def __gt__(self, other: Union['Timing', int, float]) -> bool:
         """ Operation self > other.
 
-            :param other: Timing, Integer (centiseconds) or Float (seconds).
-            :return: Boolean"""
+        :param other: Timing, Integer (centiseconds) or Float (seconds).
+        :return: Boolean
+        """
 
         if True not in {isinstance(other, _) for _ in [Timing, int, float]}:
-            raise TypeError(f"{type(self)} > {type(other)}  ->  Invalid types for this operation.")
+            raise TypeError(f"Operation {type(self)} > {type(other)} is not supported.")
         _a = self.gettimes()
         try:
             _b = Timing(other).gettimes()
@@ -663,14 +706,15 @@ class Timing:
         # a == b
         return False
 
-    def __ge__(self, other):
+    def __ge__(self, other: Union['Timing', int, float]) -> bool:
         """ Operation self >= other.
 
-            :param other: Timing, Integer (centiseconds) or Float (seconds).
-            :return: Boolean."""
+        :param other: Timing, Integer (centiseconds) or Float (seconds).
+        :return: Boolean.
+        """
 
         if True not in {isinstance(other, _) for _ in (Timing, int, float)}:
-            raise TypeError(f"{type(self)} >= {type(other)} ->  Operation not valid for given types.")
+            raise TypeError(f" Operation {type(self)} >= {type(other)} is not supported.")
         try:
             # saving processing by testing one at a time
             if self > other:
@@ -680,23 +724,25 @@ class Timing:
         except ValueError as thingy:
             raise ValueError(thingy.args)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ Return the string representation of this object. Used for saving.
 
-            :return: f"{h:mm:ss.cs}
+        :return: f"{h:mm:ss.cs}
 
-            hours: 1 digit at least
-            minutes: 2 digits only
-            seconds: 2 digits only
-            centiseconds: 2 digits only."""
+        hours: 1 digit at least
+        minutes: 2 digits only
+        seconds: 2 digits only
+        centiseconds: 2 digits only.
+        """
 
-        def digito(arg):
+        def digito(arg: int) -> str:
             """ Make sure that even values with 1 digit are printed with 2 digits."""
             _ = ""
             if arg < 10:
                 _ += f"0"
             return f"{_}{arg}"
 
+        # Notice that 'hours' doesn't need the method 'digito'. It can show a single digit like in 2:03:01.06
         saida = f"{self.hours}:{digito(self.minutes)}:{digito(self.seconds)}.{digito(self.centiseconds)}"
         return saida
 

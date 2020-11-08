@@ -31,42 +31,45 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
+from typing import Union
+
 
 class Scroll:
     """ Scroll makes the event (image or message) scroll vertically through the screen.
 
-        Extends 'Dados.Events.Evento.Effect.Effect'.
+    Extends 'Dados.Events.Evento.Effect.Effect'.
 
-        Methods:
+    Methods:
 
-        __init__(entrada = None, subtitlerplugin = None): Create the object with no parameters, a String, or another
-        Scroll object to copy. String reading format changes according to subtitlerplugin.
+    __init__(entrada = None, subtitlerplugin = None): Create the object with no parameters, a String, or another
+    Scroll object to copy. String reading format changes according to subtitlerplugin.
 
-        gety1(): returns y1. Non-negative Integer.
+    gety1(): returns y1. Non-negative Integer.
 
-        gety2(): returns y2. Non-negative Integer.
+    gety2(): returns y2. Non-negative Integer.
 
-        getdelay(): returns delay. Integer, value from 0 to 100.
+    getdelay(): returns delay. Integer, value from 0 to 100.
 
-        getfadeawayheight(): returns fadeawayheight. Non-negative Integer.
+    getfadeawayheight(): returns fadeawayheight. Non-negative Integer.
 
-        issubtitlerplugin(): returns subtitlerplugin. True or False.
+    issubtitlerplugin(): returns subtitlerplugin. True or False.
 
-        getdirection(): returns direction. String. "up" or "down".
+    getdirection(): returns direction. String. "up" or "down".
 
-        sety1(y1): set y1. Non-negative integer.
+    sety1(y1): set y1. Non-negative integer.
 
-        sety2(y2) set y2. Non-negative integer.
+    sety2(y2) set y2. Non-negative integer.
 
-        setdelay(delay) set delay. Integer. From 0 to 100, inclusive.
+    setdelay(delay) set delay. Integer. From 0 to 100, inclusive.
 
-        setfadeawayheight(fadeawayheight): set fadeawayheight. Non-negative integer.
+    setfadeawayheight(fadeawayheight): set fadeawayheight. Non-negative integer.
 
-        setsubtitlerplugin(subtitlerplugin) set subtitlerplygin. Which decides how to read and print this object.
+    setsubtitlerplugin(subtitlerplugin) set subtitlerplygin. Which decides how to read and print this object.
 
-        setdirection(direction): set direction. "up" or "down".
+    setdirection(direction): set direction. "up" or "down".
 
-        __repr__(): String format changes according to subtitlerplugin."""
+    __repr__(): String format changes according to subtitlerplugin.
+    """
 
     # self.direction: 'up' or 'down'
     # self.subtitlerplugin: True or False. If it is using Avery Lee's Subtitler plugin order or not.
@@ -77,17 +80,17 @@ class Scroll:
     # self.fadeawayheight: Integer. Optional. The documentation doesn't explain well how to treat this value,
     # so I won't care much about it.
 
-    def __init__(self, entrada=None, subtitlerplugin=None):
+    def __init__(self, entrada: Union[str, 'Scroll', None] = None, subtitlerplugin: Union[bool, None] = None):
         """ Constructs the object. Can use a string or copy from a similar object.
 
-            :param entrada: String, Dados.Events.Evento.Effect.Scroll.Scroll object, or None. String is used for loading
-                a SSA file. Scroll object will have copied values. None will start with direction, y1, y2, delay,
-                fadeawayheight and subtitlerplugin as "up", 0, 0, 0, None and False, respectively.
-            :param subtitlerplugin: True or False. True means the format will be read and written as
-                f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}". False means the format will be read and
-                written as f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}".
-
-                """
+        :param entrada: String, Dados.Events.Evento.Effect.Scroll.Scroll object, or None. String is used for loading
+            a SSA file. Scroll object will have copied values. None will start with direction, y1, y2, delay,
+            fadeawayheight and subtitlerplugin as "up", 0, 0, 0, Non e and False, respectively.
+        :param subtitlerplugin: True, False or None. True means the format will be read and written as
+            f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}". False means the format will be read and
+            written as f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}". If None, the constructor will
+            try to guess it.
+        """
 
         if entrada is None:
             self.direction, self.y1, self.y2, self.delay, self.fadeawayheight = ["up", 0, 0, 0, None]
@@ -170,71 +173,79 @@ class Scroll:
                 else:
                     self.y1, self.y2, self.delay, self.fadeawayheight = parameters
 
-    def gety1(self):
+    def gety1(self) -> int:
         """ Y1 and Y2 are the height values where the text will scroll.
 
-            There's no respective order for both values. Any of the two can be the highest or lowest.
+        There's no respective order for both values. Any of the two can be the highest or lowest.
 
-            :return: Non-negative integer."""
+        :return: Non-negative integer.
+        """
 
         return int(self.y1)
 
-    def gety2(self):
+    def gety2(self) -> int:
         """ Y1 and Y2 are the height values where the text will scroll.
 
-            There's no respective order for both values. Any of the two can be the highest or lowest.
+        There's no respective order for both values. Any of the two can be the highest or lowest.
 
-            :return: Non-negative integer."""
+        :return: Non-negative integer.
+        """
 
         return int(self.y2)
 
-    def getdelay(self):
+    def getdelay(self) -> int:
         """ Return the delay value of this object.
 
-            Integer from 0 to 100. The higher the value, the slower it scrolls.
+        Integer from 0 to 100. The higher the value, the slower it scrolls.
 
-            Calculated as 1000/delay second/pixel.
+        Calculated as 1000/delay second/pixel.
 
-            0: no delay.
+        0: no delay.
 
-            100: 0.1 second per pixel.
+        100: 0.1 second per pixel.
 
-            :return: Integer. From 0 to 100."""
+        :return: Integer. From 0 to 100.
+        """
+
         return int(self.delay)
 
     # Not sure if fadeawayheight is the distance that the scroll has to cover before fading,
     # or the position on the screen where it starts fading.
     # should return 0 be ok?
-    def getfadeawayheight(self):
+    def getfadeawayheight(self) -> int:
         """ Get fadeawayheight value of this object.
 
-            :return: Integer. Non-negative value."""
+        :return: Integer. Non-negative value.
+        """
 
         return self.fadeawayheight
 
-    def issubtitlerplugin(self):
+    def issubtitlerplugin(self) -> bool:
         """ Get subtitlerplugin value.
 
-            True: f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}"
+        True: f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}"
 
-            False: f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}"
+        False: f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}"
 
-            :return: True or False."""
+        :return: True or False.
+        """
 
         return self.subtitlerplugin
 
-    def getdirection(self):
+    def getdirection(self) -> str:
         """ Get direction.
 
-            :return: String. "up" or "down" only."""
+        :return: String. "up" or "down" only.
+        """
 
         return self.direction
 
-    def sety1(self, y1):
+    def sety1(self, y1: int) -> 'Scroll':
         """ Set y1 value of this object.
 
-            :param y1: Integer. Non-negative value.
-            :return: self."""
+        :param y1: Integer. Non-negative value.
+        :return: self.
+        """
 
         if isinstance(y1, int) is False:
             raise TypeError(f"{y1} must be an integer.")
@@ -245,11 +256,12 @@ class Scroll:
         self.y1 = y1
         return self
 
-    def sety2(self, y2):
+    def sety2(self, y2: int) -> 'Scroll':
         """ Set y2 value of this object.
 
-            :param y2: Integer. Non-negative value.
-            :return: self."""
+        :param y2: Integer. Non-negative value.
+        :return: self.
+        """
 
         if isinstance(y2, int) is False:
             raise TypeError(f"{y2} must be an integer.")
@@ -260,19 +272,20 @@ class Scroll:
         self.y2 = y2
         return self
 
-    def setdelay(self, delay):
+    def setdelay(self, delay: int) -> 'Scroll':
         """ Set delay value of this object.
 
-            Integer from 0 to 100. The higher the value, the slower it scrolls.
+        Integer from 0 to 100. The higher the value, the slower it scrolls.
 
-            Calculated as 1000/delay second/pixel.
+        Calculated as 1000/delay second/pixel.
 
-            0: no delay.
+        0: no delay.
 
-            100: 0.1 second per pixel.
+        100: 0.1 second per pixel.
 
-            :param delay: Integer. From 0  to 100.
-            :return: self."""
+        :param delay: Integer. From 0  to 100.
+        :return: self.
+        """
 
         if isinstance(delay, int) is False:
             raise TypeError(f"{delay} must be an integer")
@@ -283,11 +296,12 @@ class Scroll:
         self.delay = delay
         return self
 
-    def setfadeawayheight(self, fadeawayheight):
+    def setfadeawayheight(self, fadeawayheight: int) -> 'Scroll':
         """ Set fadeawayheight value of this object.
 
-            :param fadeawayheight: Integer. Non-negative value.
-            :return: self."""
+        :param fadeawayheight: Integer. Non-negative value.
+        :return: self.
+        """
 
         if isinstance(fadeawayheight, int) is False:
             raise TypeError(f"{fadeawayheight} must be an integer")
@@ -298,19 +312,20 @@ class Scroll:
         self.fadeawayheight = fadeawayheight
         return self
 
-    def setsubtitlerplugin(self, subtitlerplugin):
+    def setsubtitlerplugin(self, subtitlerplugin: bool) -> "Scroll":
         """ Set subtitlerplugin value.
 
-            If True:
+        If True:
 
-            f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}"
+        f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}"
 
-            if False:
+        if False:
 
-             f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}"
+        f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}"
 
-            :param subtitlerplugin:
-            :return: self."""
+        :param subtitlerplugin: True or False.
+        :return: self.
+        """
 
         if isinstance(subtitlerplugin, bool) is False:
             raise TypeError(f"{subtitlerplugin} must be True or False")
@@ -318,11 +333,12 @@ class Scroll:
         self.subtitlerplugin = subtitlerplugin
         return self
 
-    def setdirection(self, direction):
+    def setdirection(self, direction: str) -> 'Scroll':
         """ Set Scroll direction.
 
-            :param direction: String. "up" or "down" only.
-            :return: self."""
+        :param direction: String. "up" or "down" only.
+        :return: self.
+        """
 
         if isinstance(direction, str) is False:
             raise TypeError(f"{direction} must be 'up' or 'down'.")
@@ -333,19 +349,19 @@ class Scroll:
         self.direction = direction.lower()
         return self
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ Returns this object string format.
 
-            If subtitlerplugin is set to true. The return will be:
+        If subtitlerplugin is set to true. The return will be:
 
-            f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}"
+        f"Scroll {direction}; {delay}; {y1}; {y2}; {fadeawayheight}"
 
+        if subtitlerplugin is set to false. The return will be:
 
-            if subtitlerplugin is set to false. The return will be:
+        f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}"
 
-            f"Scroll {direction}; {y1}; {y2}; {delay}; {fadeawayheight}"
-
-            :return: This object string in SSA format"""
+        :return: This object string in SSA format.
+        """
 
         saida = f"Scroll {self.direction.lower()};"
         if self.subtitlerplugin:

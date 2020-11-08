@@ -30,45 +30,49 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
+from typing import Union
+
 
 class Banner:
     """ Text will be displayed in one line; Scrolling from  right to left  or right to left accross the screen.
 
-        Extends 'Dados.Events.Evento.Effect.Effect'.
+    Extends 'Dados.Events.Evento.Effect.Effect'.
 
-        Methods:
+    Methods:
 
-        __init__(str1 = None): constructs the object based on a string or another Banner object.
+    __init__(str1 = None): constructs the object based on a string or another Banner object.
 
-        __repr(): the string version of banner.
+    __repr(): the string version of banner.
 
-        getdelay(): returns delay. integer.
+    getdelay(): returns delay. integer.
 
-        getlefttoright(): returns lefttoright. None or integer.
+    getlefttoright(): returns lefttoright. None or integer.
 
-        getfadeawaywidth(): returns fadeawaywidth. None or integer.
+    getfadeawaywidth(): returns fadeawaywidth. None or integer.
 
-        setdelay(int1): int1 must be an integer from 0 to 100.
+    setdelay(int1): int1 must be an integer from 0 to 100.
 
-        setlefttoright(int1): int1 must be 1 or 0."""
+    setlefttoright(int1): int1 must be 1 or 0.
+    """
 
-    def __init__(self, str1=None):
+    def __init__(self, str1: str = None) -> None:
         """ Constructor. Text will be displayed in one line; Scrolling from  right to left  or right to left accross
-            the screen.
+        the screen.
 
-            Use a string or another Banner object to setup it's values. If str1 is None. Delay will be 0.
+        Use a string or another Banner object to setup it's values. If str1 is None. Delay will be 0.
 
-            String format: f"Banner;{delay};{lefttoright};{fadeawaywidth}"
+        String format: f"Banner;{delay};{lefttoright};{fadeawaywidth}"
 
-            lefttoright and fadeawaywidth are optional.
+        lefttoright and fadeawaywidth are optional.
 
-            delay: integer from 0 to 100.
+        delay: integer from 0 to 100.
 
-            lefttoright: integer 1 or 0.
+        lefttoright: integer 1 or 0.
 
-            fadeawaywidth: integer.
+        fadeawaywidth: integer.
 
-            :param str1: String or another Banner object."""
+        :param str1: String or another Banner object.
+        """
 
         # Adding a None case for the constructor
         if str1 is None:
@@ -136,15 +140,16 @@ class Banner:
                     # The documentation doesn't seem to explain very well how 'fadeawaywidth' works. So just reading it.
                     self.fadeawaywidth = int(leitura[2])
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ Return the string version of this object.
 
-            Used for saving.
+        Used for saving.
 
-            lefttoright and fadeawaywidth are optional values. lefttoright will be included as '0' when None,
-            fadeawaywidth will not be included when None.
+        lefttoright and fadeawaywidth are optional values. lefttoright will be included as '0' when None,
+        fadeawaywidth will not be included when None.
 
-            :return: String. Formatted as f"{delay};{lefttoright};{fadeawaywidth}" """
+        :return: String. Formatted as f"{delay};{lefttoright};{fadeawaywidth}"
+        """
 
         saida = f"Banner ;"
         saida = f"{saida}{self.delay}; {self.lefttoright}"
@@ -152,58 +157,62 @@ class Banner:
             saida = f"{saida}; {self.fadeawaywidth}"
         return saida
 
-    def getdelay(self):
+    def getdelay(self) -> int:
         """ Get the delay of the Banner Effect.
 
-            Integer from 0 to 100. The higher the value, the slower it scrolls.
+        Integer from 0 to 100. The higher the value, the slower it scrolls.
 
-            Calculated as 1000/delay second/pixel.
+        Calculated as 1000/delay second/pixel.
 
-            0: no delay.
+        0: no delay.
 
-            100: 0.1 second per pixel.
+        100: 0.1 second per pixel.
 
-            :return: integer. Value from 0 to 100."""
+        :return: integer. Value from 0 to 100.
+        """
 
         return int(self.delay)
 
-    def getlefttoright(self):
+    def getlefttoright(self) -> Union[None, int]:
         """ Set the lefttoright value of the Banner Effect.
 
-            0 or 1. 1 makes the scrolling moves from left to right.
+        0 or 1. 1 makes the scrolling moves from left to right.
 
-            :return: integer (0 or 1) or None (not set)."""
+        :return: integer (0 or 1) or None (not set).
+        """
 
         if self.lefttoright is None:
             return None
         return int(self.lefttoright)
 
-    def getfadeawaywidth(self):
+    def getfadeawaywidth(self) -> Union[None, int]:
         """ Get the fadeawaywidth value of this object.
 
-            The distance from the corners where the text fades away.
+        The distance from the corners where the text fades away.
 
-            Developer comment: 'Couldn't find much info about how this attribute works. Therefore just storing an int.'
+        Developer comment: 'Couldn't find much info about how this attribute works. Therefore just storing an int.'
 
-            :return: integer, or None. Since it's optional."""
+        :return: integer, or None. Since it's optional.
+        """
 
         if self.fadeawaywidth is None:
             return None
         return int(self.fadeawaywidth)
 
-    def setdelay(self, int1):
+    def setdelay(self, int1: int) -> 'Banner':
         """ Set the delay of the Banner Effect.
 
-            Integer from 0 to 100. The higher the value, the slower it scrolls.
+        Integer from 0 to 100. The higher the value, the slower it scrolls.
 
-            Calculated as 1000/delay second/pixel.
+        Calculated as 1000/delay second/pixel.
 
-            0: no delay.
+        0: no delay.
 
-            100: 0.1 second per pixel.
+        100: 0.1 second per pixel.
 
-            :param int1: integer. Value from 0 to 100
-            :return: self."""
+        :param int1: integer. Value from 0 to 100
+        :return: self.
+        """
 
         if isinstance(int1, int) is False:
             raise TypeError(f"{int1} has to be an integer.")
@@ -215,13 +224,14 @@ class Banner:
         self.delay = int(int1)
         return self
 
-    def setlefttoright(self, int1):
+    def setlefttoright(self, int1: int) -> 'Banner':
         """ Set the lefttoright value of the Banner Effect.
 
-            0 or 1. 1 makes the scrolling moves from left to right.
+        0 or 1. 1 makes the scrolling moves from left to right.
 
-            :param int1: integer. 0 or 1.
-            :return: self."""
+        :param int1: integer. 0 or 1.
+        :return: self.
+        """
 
         if isinstance(int1, int) is False:
             raise TypeError(f"{int1} has to be an integer.")
@@ -233,15 +243,16 @@ class Banner:
         self.lefttoright = int1
         return self
 
-    def setfadeawaywidth(self, int1):
+    def setfadeawaywidth(self, int1: int) -> 'Banner':
         """ Set the fadeawaywidth value of this object.
 
-            The distance from the corners where the text fades away.
+        The distance from the corners where the text fades away.
 
-            Developer comment: 'Couldn't find much info about how this attribute works. Therefore just reading an int.'
+        Developer comment: 'Couldn't find much info about how this attribute works. Therefore just reading an int.'
 
-            :param int1: integer.
-            :return: self."""
+        :param int1: integer.
+        :return: self.
+        """
 
         if isinstance(int1, int) is False:
             raise TypeError(f"{int1} has to be an integer.")

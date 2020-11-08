@@ -30,27 +30,32 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
+from typing import Union
+
 
 class Karaoke:
     """ 'Karaoke' effect on 'effect' column of 'Events section'.
 
-        Extends 'Dados.Events.Evento.Effect.Effect'.
+    Extends 'Dados.Events.Evento.Effect.Effect'.
 
-        I don't know what to do with this. According to the files "Karaoke as an effect is obsolete'
+    I don't know what to do with this. According to the files "Karaoke as an effect is obsolete'
 
-        So this object just reads and print 'Karaoke'. It will stay as object in case someone decides to implement it.
+    So this object just reads and print 'Karaoke'. It will stay as object in case someone decides to implement it.
 
-        Methods:
+    Methods:
 
-        __init__(): Constructs the object.
+    __init__: Constructs the object.
 
-        __repr__(): Returns 'Karaoke'."""
+    __repr__: Returns 'Karaoke'.
+    """
 
-    def __init__(self, str1=""):
+    def __init__(self, str1: 'Karaoke' = "") -> None:
+        """ Creates or copy another Karaoke instance."""
         # 'Nothing' to do here.
         if isinstance(str1, Karaoke):
             # No values to copy
             self.value = "Karaoke"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """ Return Karaoke."""
         return "Karaoke"

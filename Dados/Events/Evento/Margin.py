@@ -65,9 +65,20 @@ class Margin:
         """ Construct margin.
 
             :param margin: Non-negative Integer."""
-
         self.margin = 0
-        self.setmargin(margin)
+
+        if isinstance(margin, int):
+            self.setmargin(margin)
+        elif isinstance(margin, str):
+            try:
+                x = int(margin)
+                self.setmargin(x)
+            except ValueError:
+                raise ValueError(f"{margin} isn't a valid string.")
+        elif isinstance(margin, Margin):
+            self.setmargin(int(margin))
+        else:
+            raise TypeError(f"{margin} isn't a valid margin type")
 
     def setmargin(self, margin):
         """ Set the object's main value 'margin'

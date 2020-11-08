@@ -33,10 +33,8 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 
 
 class ErrorPackage(Exception):
-    """
-        Main Error Module from which others are extended by.
-    """
-    def __init__(self, message):
+    """Base Error Module from which others inherit."""
+    def __init__(self, message: str) -> None:
         self.message = message
         super().__init__(self.message)
 
@@ -44,24 +42,25 @@ class ErrorPackage(Exception):
 class Formatogeterror(ErrorPackage):
     """ Trying to get format when the value wasn't read or set before.
 
-        Raised by method getformat from class Formato in 'Dados.Events.Formato.Formato.py'."""
+    Raised by method getformat from class Formato in 'Dados.Events.Formato.Formato.py'.
+    """
 
-    def __init__(self, titulo, message="Trying to get format when the value wasn't read or set before."):
+    def __init__(self, titulo: str, message="Trying to get format when the value wasn't read or set before.") -> None:
         self.titulo = titulo
         self.message = message
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.titulo} -> {self.message}"
 
 
 class Timingnegativeerror(ErrorPackage):
     """ Operation led to Timing becoming a negative value.
 
-        Raised by 'aftersub' in method '__sub__' from class Timing in 'Dados.Events.Evento.Effect.Timin
-        g.py'."""
+    Raised by 'aftersub' in method '__sub__' from class Timing in 'Dados.Events.Evento.Effect.Timing.py'.
+    """
 
-    def __init__(self, titulo, message="Operation led to Timing becoming a negative value."):
+    def __init__(self, titulo: str, message="Operation led to Timing becoming a negative value."):
         self.titulo = titulo
         self.message = message
         super().__init__(self.message)
@@ -73,55 +72,58 @@ class Timingnegativeerror(ErrorPackage):
 class Manyeffectserror(ErrorPackage):
     """ Operation led to Timing becoming a negative value.
 
-        Raised by 'aftersub' in method '__sub__' from class Timing in 'Dados.Events.Evento.Effect.Timin
-        g.py'."""
+    Raised by 'aftersub' in method '__sub__' from class Timing in 'Dados.Events.Evento.Effect.Timing.py'.
+    """
 
-    def __init__(self, titulo, message="Operation led to Timing becoming a negative value."):
+    def __init__(self, titulo: str, message="Operation led to Timing becoming a negative value.") -> None:
         self.titulo = titulo
         self.message = message
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.titulo} -> {self.message}"
 
 
 class Estilogeterror(ErrorPackage):
     """ Tried to get a format that existed, but wasn't set.
 
-        Raised by method 'getvalue' from class Estilo in 'Dados.V4Styles.Estilo.Estilo.py'"""
+    Raised by method 'getvalue' from class Estilo in 'Dados.V4Styles.Estilo.Estilo.py'.
+    """
 
-    def __init__(self, titulo, message="Tried to get a format that existed, but wasn't set."):
+    def __init__(self, titulo: str, message="Tried to get a format that existed, but wasn't set.") -> None:
         self.titulo = titulo
         self.message = message
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.titulo} -> {self.message}"
 
 
 class V4stylesgeterror(ErrorPackage):
     """ Attempted to retrieve Format when it wasn't set.
 
-        Raised by methods 'getestilolist' and 'getestilo' from class V4Styles in 'Dados.V4Styles.V4Styles.py'"""
+    Raised by methods 'getestilolist' and 'getestilo' from class V4Styles in 'Dados.V4Styles.V4Styles.py'.
+    """
 
-    def __init__(self, titulo, message="Attempted to retrieve Format, but it wasn't set."):
+    def __init__(self, titulo: str, message="Attempted to retrieve Format, but it wasn't set.") -> None:
         self.titulo = titulo
         self.message = message
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.titulo} -> {self.message}"
 
 
 class Effectgetvalue(ErrorPackage):
     """ Detected more than 1 simultaneous error.
 
-        Raised by method 'getvalue' from class Effect in 'Dados.Events.Evento.Effect.Effect.py'"""
+    Raised by method 'getvalue' from class Effect in 'Dados.Events.Evento.Effect.Effect.py'.
+    """
 
-    def __init__(self, titulo, message="Can only have 1 effect set max."):
+    def __init__(self, titulo: str, message="Can only have 1 effect set max.") -> None:
         self.titulo = titulo
         self.message = message
         super().__init__(self.message)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.titulo} -> {self.message}"

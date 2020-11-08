@@ -32,16 +32,20 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
+from typing import Union
+
 
 class Text:
-    def __init__(self, str1):
+    def __init__(self, str1: Union[str, 'Text']) -> None:
         """ Just printing and saving this as a String for now. Too many special functions here to worry about.
 
-            Extends 'Dados.Events.Evento.Evento'.
+        Extends 'Dados.Events.Evento.Evento'.
 
-            :param str1: String or Text instance."""
+        :param str1: String or Text instance.
+        """
 
-        assert(isinstance(str1, str) or isinstance(str1, Text)), f"{str1} has to be a String or Text object."
+        if (isinstance(str1, str) or isinstance(str1, Text)) is False:
+            raise TypeError(f"{str1} has to be a String or Text object.")
 
         if isinstance(str1, Text):
             self.texto = self.readtexto(f"{str1}")
@@ -50,15 +54,17 @@ class Text:
 
     # for the moment just copying the string to the string line
     @staticmethod
-    def readtexto(str1):
+    def readtexto(str1: str) -> str:
         """ Receives a string. Returns the same string.
 
-            At the moment, Text doesn't do anything besides storing a string value.
+        At the moment, Text doesn't do anything besides storing a string value.
 
-            Functions will be implemented later.
+        Text commands will be implemented later.
 
-            :param str1: String
-            :return: String. """
+        :param str1: String
+        :return: String.
+        """
+
         if isinstance(str1, str) is False:
             raise TypeError(f"{str1} has to be a string")
         return f"{str1}"

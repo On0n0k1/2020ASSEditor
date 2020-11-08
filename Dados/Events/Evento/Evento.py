@@ -20,7 +20,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 
 # Libs
-import types
+# import types
 
 # Own modules
 from Dados.SimpleLine.SimpleLine import SimpleLine
@@ -42,70 +42,73 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
+from typing import Union
+from typing import List
+
 
 class Evento:
     """ Stores an Event for SSA.
 
-        Extend 'Dados.Events.Events'.
+    Extend 'Dados.Events.Events'.
 
-        Attribute names: ["layer", "marked", "start", "end", "style", "name", "marginl", "marginr", "marginv", "effect",
-        "text"]
+    Attribute names: ["layer", "marked", "start", "end", "style", "name", "marginl", "marginr", "marginv", "effect",
+    "text"]
 
-        List above is retrievable with gettiposdisponiveis() method.
+    List above is retrievable with gettiposdisponiveis() method.
 
-        These attributes will be stored in a dict from which the values can be get and set with getdictvalue and
-        setdictvalue respectively. There's also gets and sets for each attribute separately, for the sake of ease.
-        E.G. : setlayer, setmarked, getlayer, getmarked...
+    These attributes will be stored in a dict from which the values can be get and set with getdictvalue and
+    setdictvalue respectively. There's also gets and sets for each attribute separately, for the sake of ease.
+    E.G. : setlayer, setmarked, getlayer, getmarked...
 
-        The values can also be loaded using a string with readevent. A list can be loaded with setvalues, but it must be
-        following the same order as this object's getformat.
+    The values can also be loaded using a string with readevent. A list can be loaded with setvalues, but it must be
+    following the same order as this object's getformat.
 
-        Use setformat before reading any string, setting with any list, or printing this object.
+    Use setformat before reading any string, setting with any list, or printing this object.
 
-        seteventtype set this event type. All possible types can be checked with getalleventtypes(), which is abstract.
+    seteventtype set this event type. All possible types can be checked with getalleventtypes(), which is abstract.
 
-        Below is a list of all methods used:
+    Below is a list of all methods used:
 
-        getalleventtypes(): Static Method. Returns a string list with all possible types this object can set.
+    getalleventtypes(): Static Method. Returns a string list with all possible types this object can set.
 
-        gettiposdisponiveis(): Not Static. Returns a string list with all attribute names usable.
+    gettiposdisponiveis(): Not Static. Returns a string list with all attribute names usable.
 
-        __init__(arg = None): constructs this object and set itself to arg.
+    __init__(arg = None): constructs this object and set itself to arg.
 
-        __repr__(): called when printing formatted version of this object. Will return "" if format is not set.
+    __repr__(): called when printing formatted version of this object. Will return "" if format is not set.
 
-        seteventtype(str1): set event type to the string 'str1' informed. String must be in 'getalleventtypes()'.
+    seteventtype(str1): set event type to the string 'str1' informed. String must be in 'getalleventtypes()'.
 
-        geteventtype(): Return event type. String. "" if it wasn't set. Will be a value from 'getalleventtypes()' if
-        set.
+    geteventtype(): Return event type. String. "" if it wasn't set. Will be a value from 'getalleventtypes()' if set.
 
-        __convertvalue__(name, value): Meant to be used by the instance. 'name' must be in 'gettiposdisponiveis()'.
-        Converts 'value' to the expected type for that 'name'.
+    __convertvalue__(name, value): Meant to be used by the instance. 'name' must be in 'gettiposdisponiveis()'.
+    Converts 'value' to the expected type for that 'name'.
 
-        setdictvalue(name, value): 'name' is String. 'name' must be in 'gettiposdisponiveis()'. Set attribute 'name' to
-        a copy of object 'value'.
+    setdictvalue(name, value): 'name' is String. 'name' must be in 'gettiposdisponiveis()'. Set attribute 'name' to
+    a copy of object 'value'.
 
-        getdictvalue(name): Return value of attribute 'name'. 'name' must be in 'gettiposdisponiveis()'. Return None if
-        value isn't set.
+    getdictvalue(name): Return value of attribute 'name'. 'name' must be in 'gettiposdisponiveis()'. Return None if
+    value isn't set.
 
-        setvalues(args): Set attributes following format order. args is a list containing all 10 attributes to set.
+    setvalues(args): Set attributes following format order. args is a list containing all 10 attributes to set.
 
-        getvalues(): Return a list of size 10 containing each attribute value. Values will be ordered according to
-        'format'.
+    getvalues(): Return a list of size 10 containing each attribute value. Values will be ordered according to 'format'.
 
-        setformato(args): Set format to the list of strings args. args must have size 10. And be a valid format list,
-        containing only elements that can be found in 'gettiposdisponiveis()'.
+    setformato(args): Set format to the list of strings args. args must have size 10. And be a valid format list,
+    containing only elements that can be found in 'gettiposdisponiveis()'.
 
-        getformato(): Returns format. None if it wasn't set, list of 10 strings if it is set.
+    getformato(): Returns format. None if it wasn't set, list of 10 strings if it is set.
 
-        readevent(arg): Read an event line and store it's values. 'arg' is String or 'SimpleLine' instance.
+    readevent(arg): Read an event line and store it's values. 'arg' is String or 'SimpleLine' instance.
 
-        (gets and sets for each attribute name)..."""
+    (gets and sets for each attribute name)...
+    """
 
-    def __dir__(self):
+    def __dir__(self) -> List[str]:
         """ Displays everything from this object that is useful for outsiders, and doesn't break anything when used.
 
-            :return: list of all useful attributes in this class."""
+        :return: list of all useful attributes in this class.
+        """
 
         return ["__dir__", "getalleventtypes", "gettiposdisponiveis", "__init__", "__repr__",
                 "seteventtype", "geteventtype", "__convertvalue__", "setdictvalue", "getdictvalue", "setvalues",
@@ -114,87 +117,89 @@ class Evento:
                 "setmarginl", "getmarginr", "setmarginr", "getmarginv", "setmarginv", "geteffect", "seteffect",
                 "gettext", "settext"]
 
+    # @staticmethod
+    # def condition(value, check: Union[int, float, Timing, Margin, str, ]):
+    #     """ Makes specific condition checks on value based on what type it is.
+    #
+    #     Integer or float: check is a tuple. use it to compare it to the interval (min, max). 'min' is inclusive.
+    #     Timing: same for Integer. Timing in float is in seconds. Timing in integer is in centiseconds.
+    #     Margin: Same as Integer.
+    #     String: check is String. Do 'value == check' only.
+    #     Style: Style in Events is just a String name. Does the same as above.
+    #     Effect: check is Effect. Checks if both objects have the same values.
+    #     Text: check is String. Tests if check is a part of value (not case-sensitive).
+    #
+    #     :param value: what value to check.
+    #     :param check: condition used to check.
+    #     :return: True, False.
+    #     """
+    #
+    #     def safecheck(argvalue, argname, argtype, methodname):
+    #         """ argvalue and argname must be instances of argtype"""
+    #         if isinstance(argname, argtype) is False:
+    #             raise TypeError(f"{argname} has to be an {argtype} instance.")
+    #         if isinstance(argvalue, argtype) is False:
+    #             raise TypeError(f"Called {methodname} but {argvalue} is not an {argtype} instance.")
+    #
+    #     def checkeffect(effectcheck):
+    #         safecheck(value, effectcheck, Effect, "checkeffect")
+    #
+    #         # effect get method return a list that has the value and the name of the effect.
+    #         if value.getvalue()[1].lower() != effectcheck.getvalue()[1].lower():
+    #             return False
+    #
+    #     def checkstring(stringcheck):
+    #         safecheck(value, stringcheck, str, "checkstring")
+    #         return f"{stringcheck}" == f"{value}"
+
     @staticmethod
-    def condition(value, check):
-        """ Makes specific condition checks on value based on what type it is.
-
-            Integer or float: check is a tuple. use it to compare it to the interval (min, max). 'min' is inclusive.
-            Timing: same for Integer. Timing in float is in seconds. Timing in integer is in centiseconds.
-            Margin: Same as Integer.
-            String: check is String. Do 'value == check' only.
-            Style: Style in Events is just a String name. Does the same as above.
-            Effect: check is Effect. Checks if both objects have the same values.
-            Text: check is String. Tests if check is a part of value (not case-sensitive).
-
-
-            :param value: what value to check.
-            :param check: condition used to check.
-            :return: True, False."""
-
-        def safecheck(argvalue, argname, argtype, methodname):
-            """ argvalue and argname must be instances of argtype"""
-            if isinstance(argname, argtype) is False:
-                raise TypeError(f"{argname} has to be an {argtype} instance.")
-            if isinstance(argvalue, argtype) is False:
-                raise TypeError(f"Called {methodname} but {argvalue} is not an {argtype} instance.")
-
-        def checkeffect(effectcheck):
-            safecheck(value, effectcheck, Effect, "checkeffect")
-
-            # effect get method return a list that has the value and the name of the effect.
-            if value.getvalue()[1].lower() != effectcheck.getvalue()[1].lower():
-                return False
-
-        def checkstring(stringcheck):
-            safecheck(value, stringcheck, str, "checkstring")
-            return f"{stringcheck}" == f"{value}"
-
-    @staticmethod
-    def getalleventtypes():
+    def getalleventtypes() -> List[str]:
         return ["dialogue", "comment", "picture", "sound", "movie", "command"]
 
-    def gettiposdisponiveis(self):
+    def gettiposdisponiveis(self) -> List[str]:
         return list(self.tiposdisponiveis)
 
-    def __init__(self, arg=None, argformato=None):
+    def __init__(self, arg: Union[None, 'Evento', str, List[str]] = None, argformato: Union[None, Formato] = None) -> \
+            None:
         """ Initialize the attributes.
 
-            tiposdisponiveis: String list that stores every attribute name that can be stored. Used by dictvalues
+        tiposdisponiveis: String list that stores every attribute name that can be stored. Used by dictvalues
 
-            alleventtypes: String list that stores every event type that can be used.
+        alleventtypes: String list that stores every event type that can be used.
 
-            formato: String list that stores the order of the columns used. Uses tiposdisponiveis strings.
+        formato: String list that stores the order of the columns used. Uses tiposdisponiveis strings.
 
-            dictvalues: Dict that associates each string name to it's object.
+        dictvalues: Dict that associates each string name to it's object.
 
-                key 'layer': integer non-negative.
+            key 'layer': integer non-negative.
 
-                key 'marked': integer, 1 or 0.
+            key 'marked': integer, 1 or 0.
 
-                key 'start': 'Timing' stance from 'Dados.Events.Evento.Timing'
+            key 'start': 'Timing' stance from 'Dados.Events.Evento.Timing'
 
-                key 'end': 'Timing stance from 'Dados.Events.Evento.Timing'
+            key 'end': 'Timing stance from 'Dados.Events.Evento.Timing'
 
-                key 'style': String
+            key 'style': String
 
-                key 'name': String
+            key 'name': String
 
-                key 'marginl': 'Margin' stance from 'Dados.Events.Evento.Margin'
+            key 'marginl': 'Margin' stance from 'Dados.Events.Evento.Margin'
 
-                key 'marginr': 'Margin' stance from 'Dados.Events.Evento.Margin'
+            key 'marginr': 'Margin' stance from 'Dados.Events.Evento.Margin'
 
-                key 'marginv': 'Margin' stance from 'Dados.Events.Evento.Margin'
+            key 'marginv': 'Margin' stance from 'Dados.Events.Evento.Margin'
 
-                key 'effect': 'Effect' stance from 'Dados.Events.Evento.Effect.Effect'
+            key 'effect': 'Effect' stance from 'Dados.Events.Evento.Effect.Effect'
 
-                key 'text': 'Text' stance from 'Dados.Events.Evento.Text.Text'
+            key 'text': 'Text' stance from 'Dados.Events.Evento.Text.Text'
 
-            eventtype: String.
+        eventtype: String.
 
-            :param arg: Evento instance for copying only."""
+        :param arg: Evento instance for copying only.
+        """
 
         # Checking these 3 conditions to raise the error without going through all that is down there
-        if arg is None or isinstance(arg, Evento):
+        if (arg is None) or isinstance(arg, Evento):
             pass
         elif isinstance(argformato, Formato) and (isinstance(arg, str) or isinstance(arg, list)):
             pass
@@ -327,14 +332,15 @@ class Evento:
         else:
             raise TypeError
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ Prints formatted version of Evento.
 
-            Used for saving the file and debugging.
+        Used for saving the file and debugging.
 
-            Values will follow 'self.getformat()' order.
+        Values will follow 'self.getformat()' order.
 
-            :return: String."""
+        :return: String.
+        """
 
         _type = self.geteventtype()
         # Use the index of type to get the camelcase version of the same String.
@@ -353,15 +359,16 @@ class Evento:
         _saida += f"{_values[9]}\n"
         return _saida
 
-    def seteventtype(self, str1):
+    def seteventtype(self, str1: str) -> 'Evento':
         """ Set this object's event type.
 
-            types can be:
+        types can be:
 
-            self.getalleventtypes() == ["dialogue", "comment", "picture", "sound", "movie", "command"]
+        self.getalleventtypes() == ["dialogue", "comment", "picture", "sound", "movie", "command"]
 
-            :param str1: String. This method is not case-sensitive.
-            :return: self"""
+        :param str1: String. This method is not case-sensitive.
+        :return: self
+        """
 
         if isinstance(str1, str) is False:
             raise TypeError(f"{str1} has to be a String.")
@@ -375,26 +382,28 @@ class Evento:
         # raise ErrorEditorSSA.ErrorEvents_Evento_Evento_SetEventType(f"Arg: {_}, Acceptable values:{self.alleventtypes
         # }")
 
-    def geteventtype(self):
+    def geteventtype(self) -> str:
         """ Return event type.
 
-            types can be every element from self.getalleventtypes() but capitalized.
+        types can be every element from self.getalleventtypes() but capitalized.
 
-            ["Dialogue", "Comment", "Picture", "Sound", "Movie", "Command"]
+        ["Dialogue", "Comment", "Picture", "Sound", "Movie", "Command"]
 
-            :return: String if set. Empty String "" if it wasn't set."""
+        :return: String if set. Empty String "" if it wasn't set.
+        """
 
         return f"{self.eventtype}"
 
-    def __convertvalue__(self, name, value):
+    def __convertvalue__(self, name: str, value) -> Union[None, int, Timing, str, Margin, Effect, Text]:
         """ Return a converted type of value based on what name it has.
 
-            Used by gets and sets.
+        Used by gets and sets.
 
-            :param name: String. Must be in self.tiposdisponiveis
-            :param value: any type valid for the name used. Call f"{(self.dictvalues[name])['documentation']}" for more
-                info.
-            :return: converted value"""
+        :param name: String. Must be in self.tiposdisponiveis
+        :param value: any type valid for the name used. Call f"{(self.dictvalues[name])['documentation']}" for more
+            info.
+        :return: converted value
+        """
 
         _name = (name.strip()).lower()
         assert _name in self.tiposdisponiveis, f"{name} - > {_name} must be in {self.tiposdisponiveis}."
@@ -419,13 +428,14 @@ class Evento:
             raise ValueError
         return _value
 
-    def setdictvalue(self, name, value):
+    def setdictvalue(self, name: str, value: Union[None, int, float, str, Timing, Margin, Effect, Text]) -> 'Evento':
         """ Set the atribute with name to value.
 
-            :param name: String. Must be in 'self.tiposdisponiveis'.
-            :param value: valid arg for that value constructor.
-            :return: self.
-            :raise ValueError: When 'layer' or 'marked' values are invalid."""
+        :param name: String. Must be in 'self.tiposdisponiveis'.
+        :param value: valid arg for that value constructor.
+        :return: self.
+        :raise ValueError: When 'layer' or 'marked' values are invalid.
+        """
 
         if isinstance(name, str) is False:
             raise TypeError(f"{name} has to be a string.")
@@ -464,11 +474,12 @@ class Evento:
                 (self.dictvalues[_name])[__val] = _value
         return self
 
-    def getdictvalue(self, name):
+    def getdictvalue(self, name: str) -> Union[None, int, str, Timing, Margin, Effect, Text]:
         """ Returns value with key 'name'.
 
-            :param name: String. Must be in 'self.tiposdisponiveis'.
-            :return: a copy of the stored value."""
+        :param name: String. Must be in 'self.tiposdisponiveis'.
+        :return: a copy of the stored value.
+        """
 
         if isinstance(name, str) is False:
             raise TypeError(f"{name} has to be a string.")
@@ -481,11 +492,13 @@ class Evento:
         _value = (self.dictvalues[_name])['value']
         return self.__convertvalue__(_name, _value)
 
-    def setvalues(self, args):
+    def setvalues(self, args: List[Union[None, int, float, str, Timing, Margin, Effect, Text]]) -> 'Evento':
         """ Sets the values using a list following this object's format order.
 
-            :param args: list with 10 elements. Each element must be appropriate for that specific value.
-            :return: self."""
+        :param args: list with 10 elements. Each element must be appropriate for that specific value.
+        :return: self.
+        """
+
         if isinstance(args, list) is False:
             raise TypeError(f"{args} has to be a list.")
         if len(args) != 10:
@@ -500,19 +513,22 @@ class Evento:
             self.setdictvalue(_format[_], args[_])
         return self
 
-    def getvalues(self):
+    def getvalues(self) -> List[Union[None, int, str, Timing, Margin, Effect, Text]]:
         """ Return a list of values stored following the same order as format.
 
-        :return: list with 10 elements. Different object types involved."""
+        :return: list with 10 elements. Different object types involved.
+        """
 
         _format = self.getformato()
         return [self.getdictvalue(_format[_]) for _ in range(10)]
 
-    def setformato(self, args):
+    def setformato(self, args: List[str]) -> 'Evento':
         """ Sets formato to the list of strings.
 
-            :param args: list of 10 strings. Each String must be in 'self.gettiposdisponiveis()'.
-            :return: self."""
+        :param args: list of 10 strings. Each String must be in 'self.gettiposdisponiveis()'.
+        :return: self.
+        """
+
         __value = args
         if isinstance(args, str) or isinstance(args, SimpleLine):
             __value = [_.strip() for _ in ((SimpleLine(f"{__value}").gettexto()).strip()).split(",")]
@@ -547,10 +563,11 @@ class Evento:
         self.formato = [f"{_}" for _ in __values]
         return self
 
-    def getformato(self):
+    def getformato(self) -> Union[None, List[str]]:
         """ Return format.
 
-            :return: None if it wasn't set. String list with 10 elements if it is set."""
+        :return: None if it wasn't set. String list with 10 elements if it is set.
+        """
 
         if isinstance(self.formato, list) is False:
             raise TypeError(f"{self.formato} is not even a list. Something else changed it.")
@@ -561,11 +578,13 @@ class Evento:
 
     # string
     # simpleline
-    def readevent(self, arg):
+    def readevent(self, arg: Union[str, SimpleLine]) -> 'Evento':
         """ Read an event line and stores it's columns.
 
-            :param arg: String or SimpleLine instance.
-            :return: self."""
+        :param arg: String or SimpleLine instance.
+        :return: self.
+        """
+
         assert self.getformato() is not None, f"Format is not set"
         if (isinstance(arg, str) or isinstance(arg, SimpleLine)) is False:
             raise TypeError(f"{arg} must be a string or a 'SimpleLine' instance")
@@ -587,278 +606,300 @@ class Evento:
     # self.setdictvalue already works as set for all names
     # [layer, marked, start, end, style, name, marginl, marginr, marginv, effect, text]
 
-    def getlayer(self):
+    def getlayer(self) -> int:
         """ Return layer.
 
-            Subtitles having different layer number will be ignored during the collusion detection. Higher numbered
-            layers will be drawn over the lower numbered.
+        Subtitles having different layer number will be ignored during the collusion detection. Higher numbered
+        layers will be drawn over the lower numbered.
 
-            Can be Layer or Marked. One of the two is chosen in Format.
+        Can be Layer or Marked. One of the two is chosen in Format.
 
-            :return: non-negative integer."""
+        :return: non-negative integer.
+        """
 
         _name = 'layer'
         return self.getdictvalue(_name)
 
-    def setlayer(self, arg):
+    def setlayer(self, arg: Union[int, str]) -> 'Evento':
         """ Set layer.
 
-            Each layer have it's own collision areas.
+        Each layer have it's own collision areas.
 
-            Subtitles with higher layers will be drawn over lower layer ones.
+        Subtitles with higher layers will be drawn over lower layer ones.
 
-            Can be Layer or Marked. One of the two is chosen in Format.
+        Can be Layer or Marked. One of the two is chosen in Format.
 
-            :param arg: non-negative integer. Or integer in string format.
-            :return: self."""
+        :param arg: non-negative integer. Or integer in string format.
+        :return: self.
+        """
 
         _name = 'layer'
         return self.setdictvalue(_name, arg)
 
-    def getmarked(self):
+    def getmarked(self) -> int:
         """ Return marked.
 
-            Marked=0 means the line is not shown as "marked" in SSA.
+        Marked=0 means the line is not shown as "marked" in SSA.
 
-            Marked=1 means the line is shown as "marked" in SSA.
+        Marked=1 means the line is shown as "marked" in SSA.
 
-            :return: Integer. 1 or 0."""
+        :return: Integer. 1 or 0.
+        """
 
         _name = 'marked'
         return self.getdictvalue(_name)
 
-    def setmarked(self, arg):
+    def setmarked(self, arg: int) -> 'Evento':
         """ Set marked.
 
-            Marked=0 means the line is not shown as "marked" in SSA.
+        Marked=0 means the line is not shown as "marked" in SSA.
 
-            Marked=1 means the line is shown as "marked" in SSA.
+        Marked=1 means the line is shown as "marked" in SSA.
 
-            :param arg: Integer. 1 or 0.
-            :return: self."""
+        :param arg: Integer. 1 or 0.
+        :return: self.
+        """
 
         _name = 'marked'
         return self.setdictvalue(_name, arg)
 
-    def getstart(self):
+    def getstart(self) -> Timing:
         """ Return Start.
 
-            Starting time for the event.
+        Starting time for the event.
 
-            0:00:00:00 format as Hrs:Mins:Secs:hundredths.
+        0:00:00:00 format as Hrs:Mins:Secs:hundredths.
 
-            :return: Timing object. From 'Dados.Events.Evento.Timing'. """
+        :return: Timing object. From 'Dados.Events.Evento.Timing'.
+        """
 
         _name = 'start'
         return self.getdictvalue(_name)
 
-    def setstart(self, arg):
+    def setstart(self, arg: Union[None, int, float, str, List[int], Timing]) -> 'Evento':
         """ Set Start.
 
-            Starting time for the event.
+        Starting time for the event.
 
-            0:00:00:00 format as Hrs:Mins:Secs:hundredths.
+        0:00:00:00 format as Hrs:Mins:Secs:hundredths.
 
-            :param arg: No value, Integer, Float, String, Integer List or another Timing instance.
-            :return: self. """
+        :param arg: None, Integer, Float, String, Integer List or another Timing instance.
+        :return: self.
+        """
 
         _name = 'start'
         return self.setdictvalue(_name, arg)
 
-    def getend(self):
+    def getend(self) -> Timing:
         """ Return end.
 
-            Ending time for the event.
+        Ending time for the event.
 
-            0:00:00:00 format as Hrs:Mins:Secs:hundredths.
+        0:00:00:00 format as Hrs:Mins:Secs:hundredths.
 
-            :return: Timing object. From 'Dados.Events.Evento.Timing.Timing'."""
+        :return: Timing object. From 'Dados.Events.Evento.Timing.Timing'.
+        """
 
         _name = 'end'
         return self.getdictvalue(_name)
 
-    def setend(self, arg):
+    def setend(self, arg: Union[int, float, str, List[int], Timing]) -> 'Evento':
         """ Set end.
 
-            Ending time for the event.
+        Ending time for the event.
 
-            0:00:00:00 format as Hrs:Mins:Secs:hundredths.
+        0:00:00:00 format as Hrs:Mins:Secs:hundredths.
 
-            :param arg: No value, Integer, Float, String, Integer List or another Timing instance.
-            :return: self."""
+        :param arg: No value, Integer, Float, String, Integer List or another Timing instance.
+        :return: self.
+        """
 
         _name = 'end'
         return self.setdictvalue(_name, arg)
 
-    def getstyle(self):
+    def getstyle(self) -> str:
         """ Return style.
 
-            The name of the style used by this event. String.
+        The name of the style used by this event. String.
 
-            The string is a reference to one of the names in V4Styles. If there's no style with this name, it will not
-            raise an error.
+        The string is a reference to one of the names in V4Styles. If there's no style with this name, it will not
+        raise an error.
 
-            The issue of not having a reference should be found and solved by the upper classes.
+        The issue of not having a reference should be found and solved by the upper classes.
 
-            :return: String."""
+        :return: String.
+        """
 
         _name = 'style'
         return self.getdictvalue(_name)
 
-    def setstyle(self, arg):
+    def setstyle(self, arg: str) -> 'Evento':
         """ Set style.
 
-            The name of the style used by this event.
+        The name of the style used by this event.
 
-            The string is a reference to one of the names in V4Styles. If there's no style with this name, it will not
-            raise an error.
+        The string is a reference to one of the names in V4Styles. If there's no style with this name, it will not
+        raise an error.
 
-            The issue of not having a reference should be found and solved by the upper classes.
+        The issue of not having a reference should be found and solved by the upper classes.
 
-            :param arg: String.
-            :return: self."""
+        :param arg: String.
+        :return: self.
+        """
 
         _name = 'style'
         return self.setdictvalue(_name, arg)
 
-    def getname(self):
+    def getname(self) -> str:
         """ Return name.
 
-            Character that is speaking the line. Meant to help scripting/editing the file.
+        Character that is speaking the line. Meant to help scripting/editing the file.
 
-            Optional value.
+        Optional value.
 
-            :return: String."""
+        :return: String.
+        """
 
         _name = 'name'
         return self.getdictvalue(_name)
 
-    def setname(self, arg):
+    def setname(self, arg: str) -> 'Evento':
         """ Set name.
 
-            Character that is speaking the line. Meant to help scripting/editing the file.
+        Character that is speaking the line. Meant to help scripting/editing the file.
 
-            Optional value.
+        Optional value.
 
-            :param arg: String.
-            :return: self."""
+        :param arg: String.
+        :return: self.
+        """
 
         _name = 'name'
         return self.setdictvalue(_name, arg)
 
-    def getmarginl(self):
+    def getmarginl(self) -> Margin:
         """ Return marginl.
 
-            Left margin. Instanced by it's own class with valid operations and conversion with integers. String version
-            has 4 digits, at least.
+        Left margin. Instanced by it's own class with valid operations and conversion with integers. String version
+        has 4 digits, at least.
 
-            :return: Margin instance from 'Dados.Events.Evento.Margin.Margin'."""
+        :return: Margin instance from 'Dados.Events.Evento.Margin.Margin'.
+        """
 
         _name = 'marginl'
         return self.getdictvalue(_name)
 
-    def setmarginl(self, arg):
+    def setmarginl(self, arg: Union[int, str, Margin]) -> 'Evento':
         """ Set marginl.
 
-            Left margin. Instanced by it's own class with valid operations and conversion with integers. String version
-            has 4 digits, at least.
+        Left margin. Instanced by it's own class with valid operations and conversion with integers. String version
+        has 4 digits, at least.
 
-            :param arg: Non-negative Integer.
-            :return: self."""
+        :param arg: Non-negative Integer, string or another Margin instance.
+        :return: self.
+        """
 
         _name = 'marginl'
         return self.setdictvalue(_name, arg)
 
-    def getmarginr(self):
+    def getmarginr(self) -> Margin:
         """ Return marginr.
 
-            Right margin. Instanced by it's own class with valid operations and conversion with integers. String version
-            has 4 digits, at least.
+        Right margin. Instanced by it's own class with valid operations and conversion with integers. String version
+        has 4 digits, at least.
 
-            :return: Margin instance from 'Dados.Events.Evento.Margin.Margin'"""
+        :return: Margin instance from 'Dados.Events.Evento.Margin.Margin'
+        """
 
         _name = 'marginr'
         return self.getdictvalue(_name)
 
-    def setmarginr(self, arg):
+    def setmarginr(self, arg: Union[int, str, Margin]) -> 'Evento':
         """ Set marginr.
 
-            Right margin. Instanced by it's own class with valid operations and conversion with integers. String version
-            has 4 digits, at least.
+        Right margin. Instanced by it's own class with valid operations and conversion with integers. String version
+        has 4 digits, at least.
 
-            :param arg: Non-negative Integer.
-            :return: self."""
+        :param arg: Non-negative Integer, string or another Margin instance.
+        :return: self.
+        """
 
         _name = 'marginr'
         return self.setdictvalue(_name, arg)
 
-    def getmarginv(self):
+    def getmarginv(self) -> Margin:
         """ Return marginv.
 
-            Bottom margin. Instanced by it's own class with valid operations and conversion with integers. String
-            version has 4 digits, at least.
+        Bottom margin. Instanced by it's own class with valid operations and conversion with integers. String
+        version has 4 digits, at least.
 
-            :return: Margin instance from 'Dados.Events.Evento.Margin.Margin'"""
+        :return: Margin instance from 'Dados.Events.Evento.Margin.Margin'
+        """
 
         _name = 'marginv'
         return self.getdictvalue(_name)
 
-    def setmarginv(self, arg):
+    def setmarginv(self, arg: Union[int, str, Margin]) -> 'Evento':
         """ Set marginv.
 
-            Bottom margin. Instanced by it's own class with valid operations and conversion with integers. String
-            version has 4 digits, at least.
+        Bottom margin. Instanced by it's own class with valid operations and conversion with integers. String
+        version has 4 digits, at least.
 
-            :param arg: Non-negative Integer.
-            :return: self."""
+        :param arg: Non-negative Integer, string or another Margin instance.
+        :return: self.
+        """
 
         _name = 'marginv'
         return self.setdictvalue(_name, arg)
 
-    def geteffect(self):
+    def geteffect(self) -> 'Effect':
         """ Return effect.
 
-            Usually empty. But can have one of 3 transition effects from SSA v4.x
+        Usually empty. But can have one of 3 transition effects from SSA v4.x
 
-            :return: Effect instance from 'Dados.Events.Evento.Effect.Effect'."""
+        :return: Effect instance from 'Dados.Events.Evento.Effect.Effect'.
+        """
 
         _name = 'effect'
         return self.getdictvalue(_name)
 
-    def seteffect(self, arg):
+    def seteffect(self, arg: Union[None, str, Effect]) -> 'Evento':
         """ Set effect.
 
-            Usually empty. But can have one of 3 transition effects from SSA v4.x
+        Usually empty. But can have one of 3 transition effects from SSA v4.x
 
-            :param arg: None, String or Effect instance from 'Dados.Events.Evento.Effect.Effect'. "" and None means no
-                value to be read.
+        :param arg: None, String or Effect instance from 'Dados.Events.Evento.Effect.Effect'. "" and None means no
+            value to be read.
 
-            :return: self."""
+        :return: self.
+        """
 
         _name = 'effect'
         return self.setdictvalue(_name, arg)
 
-    def gettext(self):
+    def gettext(self) -> Text:
         """ Return 'text'.
 
-            Subtitle Text. It will always be in the last column of the text file. Can have special override functions.
+        Subtitle Text. It will always be in the last column of the text file. Can have special override functions.
 
-            Functions haven't been properly implemented for this yet. So treating the string from this section raw.
+        Functions haven't been properly implemented for this yet. So treating the string from this section raw.
 
-            :return: Text instance from 'Dados.Events.Evento.Text.Text'."""
+        :return: Text instance from 'Dados.Events.Evento.Text.Text'.
+        """
 
         _name = 'text'
         return self.getdictvalue(_name)
 
-    def settext(self, arg):
+    def settext(self, arg: Union[str, Text]) -> 'Evento':
         """ Set 'text'.
 
-            Subtitle Text. It will always be in the last column of the text file. Can have special override functions.
+        Subtitle Text. It will always be in the last column of the text file. Can have special override functions.
 
-            'Functions haven't been properly implemented for this yet. So treating the string from this section raw.
+        'Functions haven't been properly implemented for this yet. So treating the string from this section raw.
 
-            :param arg: String or Text instance from 'Dados.Events.Evento.Text.Text'.
-            :return: self."""
+        :param arg: String or Text instance from 'Dados.Events.Evento.Text.Text'.
+        :return: self.
+        """
 
         _name = 'text'
         return self.setdictvalue(_name, arg)

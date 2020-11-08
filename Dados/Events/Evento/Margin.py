@@ -27,44 +27,40 @@ __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
 # from Dados.ErrorEditorSSA import ErrorEditorSSA
+from typing import Union, List
 
 
 class Margin:
     """ Margin in pixels used in "MarginL", "MarginR" and "MarginV" of "Dados.Events.Evento"
 
-        Extends 'Dados.Events.Evento.Evento'.
+    Extends 'Dados.Events.Evento.Evento'.
 
-        Acts as integer most of the times. But string format has at least 4 digits. Supports most integer operations.
-        But mostly recommended to just use int({objectname}) and then Margin ({result}) when using this object. As some
-        of the results will simply return an integer instead of a Margin object. Cannot be a negative value, any
-        operation that results in a negative will return it as a regular integer instead.
+    Acts as integer most of the times. But string format has at least 4 digits. Supports most integer operations.
+    But mostly recommended to just use int({objectname}) and then Margin ({result}) when using this object.
 
-        Methods:
-            __init__(margin = 0): margin is a non-negative integer. Sets self.margin when constructing.
+    Methods:
 
-            __repr__(): has at least 4 digits, as in "0000" for self.margin == 0.
+    __init__: Sets self.margin when constructing.
 
-            setmargin(margin): margin is integer (margin >=0).
+    __repr__: has at least 4 digits, as in "0000" for self.margin == 0.
 
-            __int__(): returns self.margin as an integer."""
+    setmargin: margin is integer (margin >=0).
 
-    def __dir__(self):
+    __int__: returns self.margin as an integer.
+    """
+
+    def __dir__(self) -> List[str]:
         return ['__abs__', '__add__', '__dir__', '__divmod__', '__eq__', '__float__', '__floordiv__', '__ge__',
                 '__gt__', '__iadd__', '__ifloordiv__', '__imod__', '__imul__', '__init__', '__int__', '__invert__',
                 '__ipow__', '__isub__', '__itruediv__', '__le__', '__lt__', '__mod__', '__mul__', '__ne__', '__neg__',
                 '__pos__', '__pow__', '__radd__', '__rdivmod__', '__repr__', '__rfloordiv__', '__rmod__', '__rmul__',
                 '__rpow__', '__rsub__', '__rtruediv__', '__sub__', '__truediv__', 'setmargin']
 
-        # return ["__dir__", "__init__", "__repr__", "__int__", "__float__", "__lt__", "__gt__", "__le__",
-        #        "__floordiv__", "__truediv__", "__mul__", "__sub__", "__add__", "__ne__", "__eq__", "__ge__",
-        #        "__rfloordiv__", "__rtruediv__", "__rmul__", "__rsub__", "__radd__", "__pow__", "__divmod__","__mod__",
-        #        "__ifloordiv__", "__itruediv__", "__imul__", "__isub__", "__iadd__", "__rpow__", "__rdivmod__",
-        #        "__invert__", "__abs__", "__pos__", "__neg__", "__ipow__", "__imod__", "__rmod__", "setmargin"]
-
-    def __init__(self, margin=0):
+    def __init__(self, margin: Union[int, float, str, 'Margin'] = 0) -> None:
         """ Construct margin.
 
-            :param margin: Non-negative Integer, string or another Margin instance."""
+        :param margin: Non-negative Integer, float, string or another Margin instance.
+        """
         self.margin = 0
 
         if isinstance(margin, int):
@@ -80,11 +76,12 @@ class Margin:
         else:
             raise TypeError(f"{margin} isn't a valid margin type")
 
-    def setmargin(self, margin):
+    def setmargin(self, margin: Union [int, float, str, 'Margin']) -> 'Margin':
         """ Set the object's main value 'margin'
 
-        :param margin: Integer. Cannot be negative.
-        :return: None."""
+        :param margin: Non-negative integer, float, string or another Margin instance.
+        :return: self.
+        """
 
         # inefficient way to check conditions, changing eventually
         if True not in {isinstance(margin, _) for _ in (int, float, str, Margin)}:
@@ -94,8 +91,9 @@ class Margin:
                 # margin can't be negative
                 raise ValueError
         self.margin = int(margin)
+        return self
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         num = int(self.margin)
         if num == 0:
             saida = "0000"
@@ -110,79 +108,79 @@ class Margin:
 
         return saida
 
-    def __int__(self):
+    def __int__(self) -> int:
         return int(self.margin)
 
-    def __float__(self):
+    def __float__(self) -> float:
         return float(self.margin)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         return int(self.margin) < other
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> bool:
         return self.margin > other
 
-    def __le__(self, other):
+    def __le__(self, other) -> bool:
         return self <= other
 
-    def __ge__(self, other):
+    def __ge__(self, other) -> bool:
         return self.margin >= other
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.margin == other
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> bool:
         return self.margin != other
 
-    def __add__(self, other):
+    def __add__(self, other) -> int:
         return self.margin + other
 
-    def __sub__(self, other):
+    def __sub__(self, other) -> int:
         return self.margin - other
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> int:
         return self.margin * other
 
-    def __truediv__(self, other):
+    def __truediv__(self, other) -> Union[int, float]:
         return self.margin / other
 
-    def __floordiv__(self, other):
+    def __floordiv__(self, other) -> int:
         return self.margin // other
 
-    def __mod__(self, other):
+    def __mod__(self, other) -> int:
         return self.margin % other
 
     def __divmod__(self, other):
         return divmod(self.margin, other)
 
-    def __pow__(self, other, modulo=None):
+    def __pow__(self, other, modulo=None) -> int:
         return pow(self.margin, other, modulo)
 
-    def __radd__(self, other):
+    def __radd__(self, other) -> int:
         return self.margin + other
 
-    def __rsub__(self, other):
+    def __rsub__(self, other) -> int:
         return other - self.margin
 
-    def __rmul__(self, other):
+    def __rmul__(self, other) -> int:
         return self.margin * other
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other) -> Union[int, float]:
         return other / self.margin
 
-    def __rfloordiv__(self, other):
+    def __rfloordiv__(self, other) -> Union[int, float]:
         return other // self.margin
 
-    def __rmod__(self, other):
+    def __rmod__(self, other) -> int:
         return other % self.margin
 
     def __rdivmod__(self, other):
         return divmod(other, self.margin)
 
-    def __rpow__(self, other, modulo=None):
+    def __rpow__(self, other, modulo=None) -> int:
         return pow(other, self.margin, modulo)
 
-    def __iadd__(self, other):
+    def __iadd__(self, other) -> int:
         try:
             self.margin = self.margin + other
             return int(self.margin)
@@ -191,7 +189,7 @@ class Margin:
         except ValueError as eee:
             raise ValueError(eee.args)
 
-    def __isub__(self, other):
+    def __isub__(self, other) -> int:
         try:
             self.margin = self.margin - other
             return int(self.margin)
@@ -209,7 +207,7 @@ class Margin:
         except TypeError as eee:
             raise TypeError(eee.args)
 
-    def __itruediv__(self, other):
+    def __itruediv__(self, other) -> Union[int, float]:
         try:
             self.margin = self.margin / other
             return int(self.margin)
@@ -227,7 +225,7 @@ class Margin:
         except TypeError as eee:
             raise TypeError(eee.args)
 
-    def __imod__(self, other):
+    def __imod__(self, other) -> int:
         try:
             self.margin = self.margin % other
             return int(self.margin)
@@ -236,7 +234,7 @@ class Margin:
         except TypeError as eee:
             raise TypeError(eee.args)
 
-    def __ipow__(self, other, modulo=None):
+    def __ipow__(self, other, modulo=None) -> int:
         try:
             self.margin = pow(self.margin, other, modulo)
             return int(self.margin)
@@ -245,16 +243,16 @@ class Margin:
         except TypeError as eee:
             raise TypeError(eee.args)
 
-    def __neg__(self):
+    def __neg__(self) -> int:
         return -self.margin
 
-    def __pos__(self):
+    def __pos__(self) -> int:
         return self.margin
 
-    def __abs__(self):
+    def __abs__(self) -> int:
         return self.margin
 
-    def __invert__(self):
+    def __invert__(self) -> int:
         return -self.margin
 
 

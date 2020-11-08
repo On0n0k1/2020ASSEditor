@@ -64,7 +64,7 @@ class Margin:
     def __init__(self, margin=0):
         """ Construct margin.
 
-            :param margin: Non-negative Integer."""
+            :param margin: Non-negative Integer, string or another Margin instance."""
         self.margin = 0
 
         if isinstance(margin, int):

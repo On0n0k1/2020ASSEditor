@@ -18,8 +18,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-__all__ = ["ErrorPackage", "Formatogeterror", "Timingnegativeerror", "Manyeffectserror", "Estilogeterror",
-           "V4stylesgeterror", "Effectgetvalue"]
+__all__ = ["ErrorPackage", "Timingnegativeerror", "Manyeffectserror", "Estilogeterror", "V4stylesgeterror",
+           "Effectgetvalue"]
 
 
 __author__ = "Lucas Alessandro do Carmo Lemos"
@@ -37,21 +37,6 @@ class ErrorPackage(Exception):
     def __init__(self, message: str) -> None:
         self.message = message
         super().__init__(self.message)
-
-
-class Formatogeterror(ErrorPackage):
-    """ Trying to get format when the value wasn't read or set before.
-
-    Raised by method getformat from class Formato in 'Dados.Events.Formato.Formato.py'.
-    """
-
-    def __init__(self, titulo: str, message="Trying to get format when the value wasn't read or set before.") -> None:
-        self.titulo = titulo
-        self.message = message
-        super().__init__(self.message)
-
-    def __str__(self) -> str:
-        return f"{self.titulo} -> {self.message}"
 
 
 class Timingnegativeerror(ErrorPackage):

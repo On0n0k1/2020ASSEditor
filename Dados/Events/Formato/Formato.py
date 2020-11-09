@@ -26,47 +26,56 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
-from Dados.ErrorPackage import ErrorPackage
+from typing import Union, List
+
 from Dados.SimpleLine.SimpleLine import SimpleLine
 
 
 class Formato:
     """ Stores the values from the Line 'Format: ' found at the start of '[Events]' section.
 
-        Methods:
-            readFormat(texto):
-                texto is string. texto is the 'Format:' line on the ssa text file
-                This is the main loading method. Stores all the values in self.listaTipos.
-            getFormat():
-                returns the string list with every loaded Format on the proper order.
-            setformat(*args):
-                set this object's values to the list strings.
+    Methods:
 
-        Constraints:
-            There are 10 columns to be read. The last one has to be 'Text', but all the others may have varied order.
+    readFormat(texto):
+        texto is string. texto is the 'Format:' line on the ssa text file
+        This is the main loading method. Stores all the values in self.listaTipos.
 
-            The order chosen for the loaded text file needs to be maintained.
+    getFormat():
+        returns the string list with every loaded Format on the proper order.
 
-            The code will not load the file in a case sensitive manner. But the saved file will have proper
-            capitalization.
+    setformat(*args):
+        set this object's values to the list strings.
 
-            'Marked' or 'Layer' occupy the same column. These behave differently from one another, and which is used
-            depends on the user."""
+    Constraints:
+
+    There are 10 columns to be read. The last one has to be 'Text', but all the others may have varied order.
+
+    The order chosen for the loaded text file needs to be maintained.
+
+    The code will not load the file in a case sensitive manner. But the saved file will have proper
+    capitalization.
+
+    'Marked' or 'Layer' occupy the same column. These behave differently from one another, and which is used
+    depends on the user.
+    """
 
     @staticmethod
-    def gettiposdisponiveis():
+    def gettiposdisponiveis() -> List[str]:
         """ Returns what strings format can use.
 
-            Used by this object and each individual event to know how to name it's values.
+        Used by this object and each individual event to know how to name it's values.
 
-            :return: ["Layer", "Marked", "Start", "End", "Style", "Name", "MarginL", "MarginR", "MarginV", "Effect",
-                "Text"]"""
+        :return: ["Layer", "Marked", "Start", "End", "Style", "Name", "MarginL", "MarginR", "MarginV", "Effect", "Text"]
+        """
+
         return ["Layer", "Marked", "Start", "End", "Style", "Name", "MarginL", "MarginR", "MarginV", "Effect", "Text"]
 
-    def __init__(self, arg=None):
+    # I need to fix this later, It has default value 'None', but it raises an error anyway.
+    def __init__(self, arg: Union['Formato', SimpleLine, str, None] = None):
         """ Start the instance empty or as a Formato copy.
 
-            :param arg: instance of this class from 'Dados.Events.Formato.Formato.Formato' or String to read."""
+        :param arg: instance of this class from 'Dados.Events.Formato.Formato.Formato' or String to read.
+        """
 
         self.listaTipos = []
         self.tiposDisponiveis = self.gettiposdisponiveis()
@@ -76,13 +85,16 @@ class Formato:
             self.setformat(arg.getformat())
         elif isinstance(arg, str) or isinstance(arg, SimpleLine):
             self.readformat(arg)
+        elif arg is None:
+            self.listaTipos = None
         else:
-            raise TypeError
+            raise TypeError(f"Invalid type for 'Formato' {arg}: {type(arg)}")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ String representation of this object. On the same format as the text files. Used for saving.
 
-        :return: 'Format' line with the columns in stored order."""
+        :return: 'Format' line with the columns in stored order.
+        """
 
         saida = "Format: "
         x = self.getformat()
@@ -93,23 +105,24 @@ class Formato:
         saida += "\n"
         return saida
 
-    def __checkcolumns(self, lista):
+    def __checkcolumns(self, lista: List[str]) -> True:
         """ Check the list to see if it fulfills all the requirements for 'Format' section.
 
-            Used by readFormat
+        Used by readFormat. Will raise an exception if it is invalid, else it returns True.
 
-            :param lista: string list with 10 elements. Not case-sensitive. Last element has to be 'Text'. All the other
-            9 columns can be in any order, but they have to be ["Layer" or "Marked", "Start", "End", "Style", "Name",
-            "MarginL", "MarginR", "MarginV", "Effect"]. "Layer" and "Marked" can replace one another, but these cannot
-            be together in the same list."""
+        :param lista: string list with 10 elements. Not case-sensitive. Last element has to be 'Text'. All the other
+        9 columns can be in any order, but they have to be ["Layer" or "Marked", "Start", "End", "Style", "Name",
+        "MarginL", "MarginR", "MarginV", "Effect"]. "Layer" and "Marked" can replace one another, but these cannot
+        be together in the same list.
+        """
 
         if isinstance(lista, list) is False:
             raise TypeError(f"{lista} has to be a list.")
         if len(lista) != 10:
             raise ValueError(f"{lista} must have 10 columns")
-        # assert(isinstance(lista, type([]))), f"lista parameter must be a list"
-        # assert(len(lista) == 10), f"lista must have 10 columns"
+
         errorlista = []
+
         # Regarding 'self.tiposDisponiveis',
         # Layer and Marked happens on the same column.
         # if there is 'layer', 'marked' won't show up, and viceversa.
@@ -140,23 +153,22 @@ class Formato:
         # Raising the errors, if any occurred.
         if len(errorlista) > 0:
             raise ValueError(f"{errorlista} <- These columns are missing from format.")
-            # raise ErrorEditorSSA.ErrorEvents_Formato_checkColumn(f"{errorlista}")
 
         # Last column has to be 'Text'
         if lista[9].lower() != self.tiposDisponiveis[10].lower():
             raise ValueError(f"{lista[9]} last element has to be 'Text'.")
-            # raise ErrorEditorSSA.ErrorEvents_Formato_checkColumn2(f"{lista[9]}")
         
         return True
 
-    def readformat(self, texto):
+    def readformat(self, texto: Union[SimpleLine, str]) -> 'Formato':
         """ Process a 'Format: ' line into this object.
 
-            Receive the line 'Format:' found in '[Events]' section of the SSA file, check if the line is readable, and
-            save it in this object. Use self.getFormat() to retrieve the result.
+        Receive the line 'Format:' found in '[Events]' section of the SSA file, check if the line is readable, and
+        save it in this object. Use self.getFormat() to retrieve the result.
 
-            :param texto: String or SimpleLine. The 'Format: ' line to be read.
-            :return: self."""
+        :param texto: String or SimpleLine. The 'Format: ' line to be read.
+        :return: self.
+        """
 
         if isinstance(texto, SimpleLine):
             if ((texto.gettipo()).strip()).lower() != "format":
@@ -176,7 +188,6 @@ class Formato:
             # Number of columns has to be 10 ('marked' and 'layer' swap within a single column)
             if len(lista) != 10:
                 raise ValueError(f"Columns have to be 10 ({len(lista)})")
-                # raise ErrorEditorSSA.ErrorEvents_Formato_readFormat(f"columns: {len(lista)}")
 
             # Cleaning empty spaces on start/end of each fragment
             for _ in range(len(lista)):
@@ -185,51 +196,50 @@ class Formato:
             # Checking for errors and raising them.
             if self.__checkcolumns(lista):
                 # Using the properly capitalized values (self.tiposDisponiveis) to the final list.
+                newlist = []
                 for _ in lista:
                     for x in self.tiposDisponiveis:
                         if _.lower() == x.lower():
-                            self.listaTipos.append(f"{x}")
+                            newlist.append(f"{x}")
                             break
                     else:
-                        # Gonna make this properly raise an error when the object has been finished.
-                        # print(f"{_} from {lista} doesnt match with {self.tiposDisponiveis}")
                         raise ValueError(f"{_} Invalid Column.")
-                        # raise ErrorEditorSSA.ErrorEvents_Formato_readFormat2(f"{_}")
+                self.listaTipos = newlist
         return self
-                
-    def getformat(self):
+
+    def getformat(self) -> List[str]:
         """ Get a string list with the stored values in it's loaded order.
 
-            :return: String list. Length 10. [] if it wasn't set.
-            :raises ErrorPackage.Formatogeterror: When format is not set or invalid."""
+        :return: String list. Length 10. [] if it wasn't set.
+        :raises ErrorPackage.Formatogeterror: When format is not set or invalid.
+        """
 
         if isinstance(self.listaTipos, list) is False:
-            raise ErrorPackage.Formatogeterror(f"{self.listaTipos}#WRONG TYPE({type(self.listaTipos)})")
+            raise TypeError(f"{self.listaTipos} has to be a list({type(self.listaTipos)})")
         if len(self.listaTipos) != 10:
-            raise ErrorPackage.Formatogeterror(f"{self.listaTipos}#WRONG SIZE({len(self.listaTipos)})")
-        # assert(len(self.listaTipos) == 10), f"{self.listaTipos}Stored format wasn't loaded or is invalid"
+            raise ValueError(f"{self.listaTipos} needs to have 10 elements ({len(self.listaTipos)})")
 
         saida = []
         for _ in self.listaTipos:
             saida.append(f"{_}")
         return saida
 
-    def setformat(self, args):
+    def setformat(self, args: List[str]) -> 'Formato':
         """ Set this object's format to the list given.
 
-            :param args: list with 10 string elements.
-            :return: self."""
+        :param args: list with 10 string elements.
+        :return: self.
+        """
 
         if isinstance(args, list) is False:
             raise TypeError(f"{args} has to be a list.")
-        # assert isinstance(args, list), f"{args} has to be a list."
+        if len(args) != 10:
+            raise ValueError(f"{args} must have 10 elements.")
+
         for _ in args:
             if isinstance(_, str) is False:
                 checking = [isinstance(__, str) for __ in args]
                 raise TypeError(f"{args} all elements from the list must be string. Results: {checking}")
-
-        # for _ in args:
-        #     assert isinstance(_, str), f"{args} all elements from the list must be string."
 
         # checkcolumns is what raises all the exceptions
         if self.__checkcolumns(args):
@@ -237,10 +247,3 @@ class Formato:
             for _ in args:
                 self.listaTipos.append(f"{_}")
         return self
-
-
-# test
-
-# if __name__ == "__main__":
-#     x = Formato().readformat(" Start,  Style,End, Name, MarginL, MarginR, MarginV,Layer, Effect, Text")
-#     print(x)

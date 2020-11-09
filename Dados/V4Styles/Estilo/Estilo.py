@@ -25,48 +25,37 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
-# import sys
-# if r"""C:\Users\Clarund\Documents\Programming\Python\EditorSSA""" in sys.path:
-#     pass
-# else:
-#     sys.path.append(r"""C:\Users\Clarund\Documents\Programming\Python\EditorSSA""")
-#
-# import EditorSSA
-# from Dados.ErrorEditorSSA import ErrorEditorSSA
+from typing import Union, List
+
 from Dados.ErrorPackage.ErrorPackage import Estilogeterror
 
 
 class Estilo:
-    """ Estilo object represents a single "Style" line found on the text file. Created by 'Dados.V4Styles', used by
-    'Dados.Events' and 'Dados.Events.Evento'.
+    """ Estilo object represents a single "Style" line found on the text file.
 
-        methods:
-            Estilo(colunas, texto): constructor.
+    Extends 'Dados.V4Styles'.
 
-            __repr__: used for printing or saving the file. The string format of this object will be 'Style: ' + every
-            value from this object + '\n'
+    methods:
 
-            readEstilo(texto): no need to call this method. It is used by the constructor already.
-            Receives 'texto' string, split all the ',' and associate all values to this object using setattr.
+    Estilo(colunas, texto): constructor.
 
-            getFormato(): returns a list of strings referencing the columns read from the text file. This
-            object receives these values through the constructor, no other method for changing them.
+    __repr__: used for printing or saving the file. The string format of this object will be 'Style: ' + every
+    value from this object + '\n'
 
-            getValue(texto): returns the value with name 'texto'. Raises 2 custom errors to help debugging.
-                ErrorV4Styles_Estilo: Format found on list, but value was not assigned
-                ErrorV4Styles_Estilo2: value not found on format list
+    readEstilo(texto): Receives 'texto' string, split all the ',' and associate all values to this object using setattr.
 
-            getValueList(): returns a list with all read values from the constructor. Calls getValue, so it may raise
-            the same exceptions."""
+    getFormato(): returns a list of strings referencing the columns read from the text file. This
+    object receives these values through the constructor, no other method for changing them.
 
-    # Formato Contains the list of values/columns this object stores. The values are case-sensitive. So, during
-    # comparison, use method .lower() for both values.
-    Formato = []
+    getValue(texto): returns the value with name 'texto'. Raises 2 custom errors to help debugging.
+        ErrorV4Styles_Estilo: Format found on list, but value was not assigned
+        ErrorV4Styles_Estilo2: value not found on format list
+
+    getValueList(): returns a list with all read values from the constructor. Calls getValue, so it may raise
+    the same exceptions."""
 
     def getformato(self):
         """ Returns a list with every column of this list.
-
-        If the columns in this object were created invalid. Please make a call for this object again using:
 
         __init__(colunas, texto): colunas is a list of strings containing every loaded Column from Format Line in
         V4Styles section of the text file.
@@ -82,23 +71,25 @@ class Estilo:
     # in texto will be the same as colunas.
     # texto = String with the elements that must be processed and stored. Values will be stored
 
-    def __init__(self, colunas, texto):
+    def __init__(self, colunas, texto: str):
         """ Constructor. Called by 'Dados.V4Styles.V4Styles.V4Styles'.
 
         :param colunas: list of strings that have the names of each column read in 'Format' line on '[V4+ Styles]'
         section of the text file.
-        :param texto: the 'line itself' read from the text file. String, """
+        :param texto: string. The 'line itself' read from the text file.
+        """
 
         if isinstance(colunas, list) is False:
             raise TypeError(f"{colunas} must be a list.")
-        # assert (type(colunas) == list), "formato <- must be a list"
+
         if isinstance(texto, str) is False:
             raise TypeError(f"{texto} must be a string.")
-        # assert (type(texto) == str), "texto <- must be a string"
+
         if len(colunas) != len(texto.split(',')):
             raise ValueError(f"{texto} doesn't have {len(colunas)} columns.")
-        # assert (len(colunas) <= len(texto.split(','))), "texto <- not enough columns on this line"
 
+        # Formato Contains the list of values/columns this object stores. The values are case-sensitive. So, during
+        # comparison, use method .lower() for both values.
         self.Formato = []
 
         for _ in colunas:
@@ -156,8 +147,8 @@ class Estilo:
         :param texto: String. What column to return. Must be one of the strings from 'Dados.V4Styles.Formato'. Get the
         list with getFormato()
         :return: String. The value stored.
-        :raise Dados.ErrorEditorSSA.ErrorV4Styles_Estilo: Format found on list, but value was not assigned.
-        :raise Dados.ErrorEditorSSA.ErrorV4Styles_Estilo2: Value not found on format list."""
+        :raise Dados.ErrorPackage.Estilogeterror: Format found on list, but value was not assigned.
+        """
 
         if isinstance(texto, str) is False:
             raise TypeError(f"{texto} has to be a string.")
@@ -175,7 +166,6 @@ class Estilo:
         else:
             # value not found on format list
             return None
-            # raise ErrorEditorSSA.ErrorV4Styles_Estilo2(f"{texto}")
 
     def getvaluelist(self):
         """ Returns a list with every value stored in this object.

@@ -19,19 +19,17 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-# import time
 import os
-
-# from concurrent.futures import ProcessPoolExecutor
 
 # Own Modules
 from Dados.ScriptInfo.ScriptInfo import ScriptInfo
 from Dados.V4Styles.V4Styles import V4Styles
 from Dados.Events.Events import Events
 from Dados.SimpleLine.SimpleLine import SimpleLine
-# from Dados.Events.Evento.Timing import Timing
 
 # Search for Epydoc, MIT LICENSE, Python Packages, PEP 0440 and RestructuredText
+# Reminder: The only uses this object has for v4styles are the methods readline, __str__ and __repr__
+# Time to rewrite the whole module
 
 
 __author__ = "Lucas Alessandro do Carmo Lemos"
@@ -45,31 +43,34 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 
 
 class SubPackage:
-    def __init__(self):
+    def __init__(self) -> None:
         self.scriptinfo = ScriptInfo()
         self.v4styles = V4Styles()
         self.events = Events()
-        # self.__defaulttitles__ = ("[Script Info]", "[V4+ Styles]", "[Events]")
+
         self.__defaulttitles__ = [f"{_}" for _ in SimpleLine().__defaulttitles__]
         self.__lowertitles__ = [f"{_}" for _ in SimpleLine().__lowertitles__]
         self.__readers__ = (self.scriptinfo.readline, self.v4styles.readline, self.events.readline)
-        # __readerpos__ stores what index of __readers__ to use
+
         self.__readerpos__ = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ Called when printing the formatted version of this object.
 
-            Used for saving.
+        Used for saving. Called with f'{NAME!r}'
 
-            :return: String."""
+        :return: String.
+        """
         return f"{self.scriptinfo!r}\n{self.v4styles!r}\n{self.events!r}\n"
 
-    def savefile(self, arg, overwrite=False):
+    # Must change this later to check for absolute paths instead of just strings
+    def savefile(self, arg: str, overwrite: bool = False) -> bool:
         """ Save file into location 'arg'.
 
-            :param arg: String. File Path to save. Will not replace existing file. Unless overwrite == True.
-            :param overwrite: Forces method to overwrite existing file.
-            :return: True if Save was successful. False if file already exists."""
+        :param arg: String. File Path to save. Will not replace existing file. Unless overwrite == True.
+        :param overwrite: Forces method to overwrite existing file.
+        :return: True if Save was successful. False if file already exists.
+        """
 
         if isinstance(arg, str) is False:
             raise TypeError(f"{arg} must be a file address (String).")
@@ -90,17 +91,23 @@ class SubPackage:
             else:
                 return False
 
-    # Not sure yet how to implement formatted strings with different results. Gonna study it more later
-    def __str__(self):
-        """ Unformatted string Version of the file. Used for checking what lines to edit.
-            :return: String."""
+    def __str__(self) -> str:
+        """ Unformatted string Version of the file.
+
+        Used for checking what lines to edit. Called with f'{NAME!s}'
+
+        :return: String.
+        """
+
         return f"{self.scriptinfo!s}\n{self.v4styles!s}\n{self.events!s}\n"
 
-    def loadfile(self, arg):
+    # Must change this later to check for absolute paths instead of just strings
+    def loadfile(self, arg: str) -> 'SubPackage':
         """ Load an SSA text file into this object.
 
-            :param arg: String. Local Address of file.
-            :return: self."""
+        :param arg: String. Local Address of file.
+        :return: self.
+        """
 
         if isinstance(arg, str) is False:
             raise TypeError(f"{arg} must be a file address (String).")
@@ -121,22 +128,3 @@ class SubPackage:
         except FileNotFoundError:
             raise ValueError(f"{arg} file could not be found.")
         return self
-
-#
-# if __name__ == "__main__":
-#
-#     x = SubPackage()
-#     # x.loadfile(r"/media/clarund/Videos/[Beatrice-Raws] Jormungand [BDRip 1920x1080 x264 FLAC]/[Beatrice-Raws] "
-#     #            + r"Jormungand 01 [BDRip 1920x1080 x264 FLAC].ass")
-#
-#     # Use {name!r} for the formatted version. As in the version that should be printed on the file
-#     # Use {name!s} for the unformatted "unofficial" version. Used for getting more details about the lines.
-#     print(f"{x!r}")
-#     # print(f"{x!s}")
-#
-#     if x.savefile(r"/media/clarund/Videos/[Beatrice-Raws] Jormungand [BDRip 1920x1080 x264 FLAC]/Whatan.ass"):
-#         print("Saved")
-#     else:
-#         print("File already exists")
-#
-#     # print(f"{x.scriptinfo}")

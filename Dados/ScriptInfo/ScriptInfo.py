@@ -26,71 +26,76 @@ __maintainer__ = "Lucas Alessandro do Carmo Lemos"
 __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
+from typing import Union, List
+
 from Dados.SimpleLine.SimpleLine import SimpleLine
-# from Dados.ErrorEditorSSA import ErrorEditorSSA
 
 
 class ScriptInfo:
     """ Stores and prints all the data loaded from the [Script Info] section of the sub file.
 
-        Subclass of Dados. Imports SimpleLine. Text format: f"{tipo}: {texto}".
+    Subclass of Dados. Imports SimpleLine. Text format: f"{tipo}: {texto}".
 
-        Methods(args):
-            __init__(): Creates an empty object of this class.
+    Methods(args):
+        __init__(): Creates an empty object of this class.
 
-            __repr__(): Prints all the data stored in this object in the same format as the loaded file.
+        __repr__(): Prints all the data stored in this object in the same format as the loaded file.
 
-            readline(linha):  Reads the values from the text line loaded from the [Script Info] section
-            of the loaded file. linha is SimpleLine.
+        readline(linha):  Reads the values from the text line loaded from the [Script Info] section
+        of the loaded file. linha is SimpleLine.
 
-            gettexto(titulo): titulo is string. Get the value stored with name 'titulo'.
+        gettexto(titulo): titulo is string. Get the value stored with name 'titulo'.
 
-            getvaluelist(): returns a SimpleLine list with all stored values.
+        getvaluelist(): returns a SimpleLine list with all stored values.
 
-            gettipos(): returns a String list with all stored 'tipo' values.
+        gettipos(): returns a String list with all stored 'tipo' values.
 
-            gettextolist(): returns a String list with all stored 'texto' values.
+        gettextolist(): returns a String list with all stored 'texto' values.
 
-        Developer comment:
-        I couldn't find every possible information that can be stored here.
-        So this is just a bin to keep every single line to be edited or loaded.
-        Not sure about what values these are and what they do. Recognize a few but not all."""
+    Developer comment:
+    I couldn't find every possible information that can be stored here.
+    So this is just a bin to keep every single line to be edited or loaded.
+    Not sure about what values these are and what they do. Recognize a few but not all.
+    """
 
-    def __init__(self):
-        """ Constructs the object. Doesn't do anything other than that."""
+    def __init__(self) -> None:
+        """ Constructs the empty object. Doesn't do anything other than that."""
         self.linelist = []
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """ The formatted string representation of the object.
 
-            First line is '[Script Info]'.
+        Used for saving. Call it with f'{NAME!r}'
 
-            Following lines are f'{tipo}: {texto}'.
+        First line is '[Script Info]'. Following lines are f'{tipo}: {texto}'.
 
-            :return: String."""
+        :return: String.
+        """
 
         saida = f"[Script Info]\n"
         for _ in self.linelist:
             saida = f"{saida}{_}\n"
         return saida
 
-    # Not sure how to properly implement more than 1 string representation, gonna study it more later...
-    def __str__(self):
+    def __str__(self) -> str:
         """ Return unformatted string version of this object.
 
-            Used for checking which values to edit.
+        Used for checking which values to edit. Call it with f'{NAME!s}'
 
-            :return: String."""
+        :return: String.
+        """
+
         saida = f"[Script Info]\n"
         for _ in range(len(self.linelist)):
             saida = f"{saida}({_}) - {self.linelist[_]}\n"
         return saida
 
-    def readline(self, linha):
+    def readline(self, linha: Union[SimpleLine, str]) -> 'ScriptInfo':
         """ Read the values from the text line loaded from the [Script Info] section of the loaded file.
 
-            :param linha: SimpleLine object to be read. (Linha.gettipo() is None) means that line is a comment.
-            :return: self."""
+        :param linha: String or SimpleLine object to be read.
+        :return: self.
+        """
 
         if (isinstance(linha, SimpleLine) or isinstance(linha, str)) is False:
             raise TypeError(f"{linha} has to be SimpleLine or String.")
@@ -100,6 +105,7 @@ class ScriptInfo:
         if(f"{linha}".strip()).lower() == "[Script Info]".lower():
             pass
         elif newlinha.gettipo() is None:
+            # (Linha.gettipo() is None) means that line is to be treated as comment.
             pass
         else:
             for _ in range(len(self.linelist)):
@@ -111,11 +117,12 @@ class ScriptInfo:
                 self.linelist.append(newlinha)
         return self
 
-    def getline(self, tipo):
+    def getline(self, tipo: str) -> SimpleLine:
         """ Return line with name "tipo".
 
-            :param tipo: String. "tipo" of the object to acquire
-            :return: SimpleLine."""
+        :param tipo: String. "tipo" of the object to acquire
+        :return: SimpleLine.
+        """
 
         if isinstance(tipo, str) is False:
             raise TypeError(f"{tipo} has to be String.")
@@ -127,11 +134,13 @@ class ScriptInfo:
                     newline = _
         return newline
 
-    def gettexto(self, tipo):
+    def gettexto(self, tipo: str) -> Union[str, None]:
         """ Returns the value with name 'tipo'.
 
-            :param tipo: String.
-            :return: String if found. None if not found."""
+        :param tipo: String.
+        :return: String if found. None if not found.
+        """
+
         if isinstance(tipo, str):
             raise TypeError(f"{tipo} has to be a string.")
 
@@ -141,10 +150,11 @@ class ScriptInfo:
         else:
             return newline.gettexto()
 
-    def getvaluelist(self):
+    def getvaluelist(self) -> List[SimpleLine]:
         """ Return a SimpleLine list with all stored values.
 
-            :return: list with 'Dados.SimpleLine' elements."""
+        :return: list with 'Dados.SimpleLine' elements.
+        """
 
         listaderetorno = []
         for _ in self.linelist:
@@ -152,20 +162,23 @@ class ScriptInfo:
                 listaderetorno.append(SimpleLine(_))
         return listaderetorno
 
-    def gettipos(self):
+    def gettipos(self) -> List[str]:
         """ Return a string list with all stored 'tipo' values.
 
-            :return: list with String elements."""
+        :return: list with String elements.
+        """
+
         listaderetorno = []
         for _ in self.linelist:
             if isinstance(_, SimpleLine):
                 listaderetorno.append(f"{_.gettipo()}")
         return listaderetorno
 
-    def gettextolist(self):
+    def gettextolist(self) -> List[str]:
         """ Return a string list with all stored 'texto' values.
 
-            :return: list of string elements."""
+        :return: list of string elements.
+        """
 
         listaderetorno = []
         for _ in self.linelist:

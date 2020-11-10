@@ -380,5 +380,58 @@ class Formato:
             raise TypeError(f"Argument has to be a string, 'SimpleLine' instance or another 'Formato' instance.")
         self.cols = []
 
-    def readline(self, line: Union[str, SimpleLine]):
-        pass
+        # These are the names that we know that can be used on a styles format
+        # OutlineColour and TertiaryColour represent the same thing in different versions
+        self.STYLENAMES = ["Name",
+                           "Fontname",
+                           "Fontsize",
+                           "PrimaryColour",
+                           "SecondaryColour",
+                           "OutlineColour", "TertiaryColour",
+                           "BackColour",
+                           "Bold",
+                           "Italic",
+                           "Underline",
+                           "Strikeout",
+                           "ScaleX",
+                           "ScaleY",
+                           "Spacing",
+                           "Angle",
+                           "BorderStyle",
+                           "Outline",
+                           "Shadow",
+                           "Alignment",
+                           "MarginL",
+                           "MarginR",
+                           "MarginV",
+                           "AlphaLevel",
+                           "Encoding",
+                           ]
+
+        # store names and their indexes
+        self.namesknown = {}
+        for _ in self.STYLENAMES:
+            self.namesknown[_.lower()] = None
+
+        # store names that couldn't be recognised
+        self.namesunknown = []
+
+        # The previous list and dict are used to know what each column refers to
+        # Here's the issue I have with it. The only documentation file I found is pretty old, so I can't rely on it,
+        # since names were changed with later versions.
+
+    def readline(self, line: Union[str, SimpleLine]) -> 'Formato':
+        """
+
+        :param line:
+        :return:
+        """
+
+        if (isinstance(line, str) or isinstance(line, SimpleLine)) is False:
+            raise TypeError(f"Expected a String or 'SimpleLine instance. Got {line} of type {type(line)} instead.")
+
+        newline = SimpleLine(line)
+        if (newline.gettipo().strip()).lower() == "format":
+            newcols = [_.strip() for _ in newline.gettexto().split(",")]
+
+        return self

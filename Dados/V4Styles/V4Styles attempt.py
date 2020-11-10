@@ -35,12 +35,19 @@ from Dados.SimpleLine.SimpleLine import SimpleLine
 
 
 class V4Styles:
-    def __init__(self, v4stylescopy: Union[None, 'V4Styles'] = None):
+    def __init__(self, v4stylescopy: Union[None, 'V4Styles'] = None, copyreference: bool = False):
         """ Constructs empty V4Styles.
 
         :param v4stylescopy: optional V4Styles instance to copy.
+        :param copyreference: If true. Stored values will be references from the v4stylecopy instance.
         """
+
         # Need to remember to add the copy case as well
+        if v4stylescopy is not None:
+            if isinstance(v4stylescopy, V4Styles) is False:
+                raise TypeError(f"Argument v4stylescopy has to be a V4Styles instance or omitted. Currently it is "
+                                + f"{v4stylescopy} of type {type(v4stylescopy)}.")
+
         self.lines = []
         self.formatline = None
 
@@ -52,6 +59,10 @@ class V4Styles:
         self.sprintall = False
         # Make formatted print ('__repr__') all lines, including invalid ones
         self.rprintall = False
+
+        if v4stylescopy is not None:
+            self.setformato(v4stylescopy.getformato(copyreference))
+            self.setlines(v4stylescopy.getlines(copyreference), copyreference)
 
     def __str__(self) -> str:
         """ Print unformatted version of this instance.
@@ -80,6 +91,7 @@ class V4Styles:
 
         :return: String.
         """
+
         saida = ""
         if self.formatline is not None:
             saida = f"{self.formatline!r}\n"
@@ -151,19 +163,27 @@ class V4Styles:
                             + f"{type(self.rprintall)}")
         return self.rprintall
 
-    def getformato(self) -> Union['Formato', None]:
-        """ Return Styles format. Or None if it wasn't loaded."""
+    def getformato(self, copyreference: bool = True) -> Union['Formato', None]:
+        """ Return Styles format. Or None if it wasn't loaded.
+
+        :param copyreference: if set to True, returns a reference for the instance. Else, returns a copy of the object.
+        :return: Formato instance, or None if it isn't set.
+        """
+
         if self.formatline is not None:
+            if not copyreference:
+                return Formato(self.formatline)
             return self.formatline
         return None
 
-    def getline(self, pos: int) -> Union["Estilo", SimpleLine, None]:
-        """ Retrieve a line from this instance's style list.
+    def getline(self, pos: int, copyreference: bool = True) -> Union["Estilo", SimpleLine, None]:
+        """ Retrieve a reference for a line from this instance's style list.
 
         If invalid lines are enabled ('storeall'), they can be disabled completely by calling the method
         'clearinvalidlines'
 
         :param pos: index to retrieve.
+        :param copyreference: if set to True. Returns a reference of the object, instead of a copy.
         :return: Estilo instance mostly. If storeall = True, may also include invalid SimpleLine instances. None if
         index is invalid.
         """
@@ -171,10 +191,41 @@ class V4Styles:
             raise TypeError(f"Argument 'pos' has to be int. Currently it is {pos} of type {type(pos)}")
         if (pos < 0) or (pos >= len(self.lines)):
             return None
+        if (isinstance(self.lines[pos], Estilo) or isinstance(self.lines[pos], SimpleLine)) is False:
+            raise TypeError(f"Value found wasn't Estilo or SimpleLine somehow. Value in {pos} is {self.lines[pos]} of "
+                            + f"type {type(self.lines[pos])}")
+
+        if copyreference is False:
+            if isinstance(self.lines[pos], SimpleLine):
+                return SimpleLine(self.lines[pos])
+            elif isinstance(self.lines[pos], Estilo):
+                return Estilo(self.lines[pos])
+
         return self.lines[pos]
+
+    def getlines(self, copyreference: bool = True) -> List[Union['Estilo', SimpleLine]]:
+        """ Returns a reference to this instance's list.
+
+        If invalid lines are enabled ('storeall'), they can be disabled completely by calling the method
+        'clearinvalidlines'
+
+        :param copyreference: if set to True, returns a reference to the object. Else returns a copy of the object.
+        :return reference to a list of Estilo and SimpleLine instances.
+        """
+
+        __ = []
+        if not copyreference:
+            for _ in self.lines:
+                if isinstance(_, SimpleLine):
+                    __.append(SimpleLine(_))
+                if isinstance(_, Estilo):
+                    __.append(Estilo(_))
+            return __
+        return self.lines
 
     def setstoreall(self, arg: bool) -> 'V4Styles':
         """ Tells instance to store invalid lines. Default value is False."""
+
         if isinstance(arg, bool) is False:
             raise TypeError(f"arg can only be a boolean. Currently is {arg} of type {type(arg)}")
         self.storeall = arg
@@ -182,6 +233,7 @@ class V4Styles:
 
     def setsprintall(self, arg: bool) -> 'V4Styles':
         """ Tells instance to f'unformatted print!s' (__str__) invalid lines. Default value is False."""
+
         if isinstance(arg, bool) is False:
             raise TypeError(f"arg can only be a boolean. Currently is {arg} of type {type(arg)}")
         self.sprintall = arg
@@ -189,6 +241,7 @@ class V4Styles:
 
     def setrprintall(self, arg: bool) -> 'V4Styles':
         """ Tells instance to f'formatted print!r' (__repr__) invalid lines. Default value is False."""
+
         if isinstance(arg, bool) is False:
             raise TypeError(f"arg can only be a boolean. Currently is {arg} of type {type(arg)}")
         self.rprintall = arg
@@ -203,31 +256,37 @@ class V4Styles:
 
         :return: self
         """
+
         # This should seen as a set for multiple values
         self.lines = [_ for _ in self.lines if isinstance(_, Estilo)]
         self.storeall, self.sprintall, self.rprintall = False, False, False
         return self
 
-    def setformato(self, formato: Union['Formato', str]) -> 'V4Styles':
+    def setformato(self, formato: Union['Formato', str, None]) -> 'V4Styles':
         """ Set Style's format.
 
-        :param formato: Formato instance or a String for it to read.
+        :param formato: Formato instance or a String for it to read. None erases stored value.
         :return: self
         """
 
-        if (isinstance(formato, Formato) or isinstance(formato, str)) is False:
-            raise TypeError(f"Argument formato has to be a Formato instance or a String. Currently it is {formato} of "
-                            + f"type {type(formato)}.")
+        if formato is None:
+            self.formatline = None
+            return self
+        elif (isinstance(formato, Formato) or isinstance(formato, str)) is False:
+            raise TypeError(f"Argument formato has to be a Formato instance, String or None. Currently it is {formato} "
+                            + f"of type {type(formato)}.")
         # Creating a copy of the instance to avoid storing a reference.
         self.formatline = Formato(formato)
         return self
 
-    def setline(self, newline: Union['Estilo', str, SimpleLine], pos: Union[int, None] = None):
+    def setline(self, newline: Union['Estilo', str, SimpleLine], pos: Union[int, None] = None) -> 'V4Styles':
         """ Replace the specific line with newline.
+
+        If 'storeall' was set to true. The invalid SimpleLine lines can be cleared with the method 'clearinvalidlines'.
 
         :param newline: Estilo instance for copying. String or SimpleLine to attempt to read.
         :param pos: index to set the value. If not given, or if it is larger than the length of the list, method will
-        append instead. Negative will still raise ValueError.
+            append instead. Negative will still raise ValueError.
         :return: self.
         """
 
@@ -252,19 +311,65 @@ class V4Styles:
 
         return self
 
+    def setlines(self, newlines: List[Union['Estilo', SimpleLine, str]], copyreference: bool = False,
+                 useformat: bool = False) -> 'V4Styles':
+        """ Replace all the lines stored with the given list.
+
+        :param newlines: the list to set. It may have Estilo, SimpleLine or String instances.
+        :param copyreference: default False. If True, it will store the references, not copies of the objects. Not
+            recommended.
+        :param useformat: default False. If True, it will set each event to the stored format. If False, it must be set
+            later.
+        :return: self
+        """
+
+        if isinstance(newlines, list) is False:
+            raise TypeError(f"'newlines' has to be a list with 'Estilo', 'String' or 'SimpleLine' values. Currently it "
+                            + f"is {newlines} of type {type(newlines)}")
+        for _ in newlines:
+            if True not in {isinstance(_, __) for __ in (Estilo, SimpleLine, str)}:
+                # set doesn't have duplicates. So this set comprehension will have one class of each type.
+                __typesfound = {type(___) for ___ in newlines}
+                raise TypeError(f"'newlines' has to be a list with 'Estilo', 'SimpleLine' or str instances. Currently,"
+                                + f" it is {newlines} and contain these classes{__typesfound}.")
+
+        # validating args done, time for the actual copy
+        self.lines = []
+        for _ in newlines:
+            if copyreference:
+                # Append the reference only.
+                self.lines.append(_)
+            else:
+                if isinstance(_, SimpleLine) or isinstance(_, str):
+                    self.readline(_)
+                if isinstance(_, Estilo):
+                    self.lines.append(Estilo(_))
+        if useformat:
+            if self.formatline is None:
+                raise ValueError(f"Tried to use format when it's not read yet.")
+            for _ in self.lines:
+                if isinstance(_, Estilo):
+                    # Giving each 'Estilo' a reference to format so they can track changes.
+                    _.setformato(self.formatline)
+        return self
+
 
 # These 2 classes are here just to help me remember what is essential for them. They will get their own modules soon.
 class Estilo:
     def __init__(self, line: Union['Estilo', str, SimpleLine] = None, formato: 'Formato' = None):
         pass
 
-    def readline(self, line: Union[str, SimpleLine]):
+    @staticmethod
+    def readline(line: Union[str, SimpleLine]):
         pass
 
     def setformato(self, arg: 'Formato') -> 'Estilo':
         """ Used for printing.
 
         So Estilo knows in what order should it prints it's values.
+
+        :param arg:
+        :return:
         """
         return self
 

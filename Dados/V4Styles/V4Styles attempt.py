@@ -375,8 +375,10 @@ class Estilo:
 
 
 class Formato:
-    def __init__(self, line: Union[str, SimpleLine, 'Formato'] = None):
-        pass
+    def __init__(self, line: Union[str, SimpleLine, 'Formato']):
+        if (isinstance(line, str) or isinstance(line, SimpleLine) or (line, Formato)) is False:
+            raise TypeError(f"Argument has to be a string, 'SimpleLine' instance or another 'Formato' instance.")
+        self.cols = []
 
     def readline(self, line: Union[str, SimpleLine]):
         pass

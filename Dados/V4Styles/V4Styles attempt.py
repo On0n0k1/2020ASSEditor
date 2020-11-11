@@ -28,7 +28,7 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 
 
 # Reminder: The only uses this object has for v4styles are the methods readline, __str__ and __repr__
-# Time to rewrite the whole module
+# Time to rewrite the whole module, since the previous is virtually unreadable.
 
 from typing import Union, List
 from Dados.SimpleLine.SimpleLine import SimpleLine

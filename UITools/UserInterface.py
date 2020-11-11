@@ -28,7 +28,8 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 
 import tkinter as tk
 from tkinter import ttk
-# from tkinter import filedialog as fd
+from typing import Union
+from os import PathLike
 
 from FileManagement.FileManagement import FileManagement as File
 from Dados.SubPackage import SubPackage
@@ -36,14 +37,21 @@ from UITools.TabHome.TabHome import TabHome
 
 
 class UserInterface:
-    """ Have some tools that use the module tkinter in it."""
-    def __init__(self, ssaobject=SubPackage(), initialsavedir=f"{__file__}", initialloaddir=f"{__file__}"):
+    """ User interface using tkinter.
+
+    Under development. Method docs will come soon.
+    """
+    def __init__(self, ssaobject: SubPackage = SubPackage(),
+                 initialsavedir: Union[None, str, bytes, PathLike] = f"{__file__}",
+                 initialloaddir: Union[None, str, bytes, PathLike] = f"{__file__}",
+                 ):
+
         # This functions just calls os.path.lexists
         # Using this so the code doesn't mix FileManagement and os.path together
-        # if File.exists(initialsavedir) is False:
-        #     raise TypeError(f"Invalid path argument: {initialsavedir}")
-        # if File.exists(initialloaddir) is False:
-        #     raise TypeError(f"Invalid path argument: {initialsavedir}")
+        if File.exists(initialsavedir) is False:
+            raise TypeError(f"Invalid path argument: {initialsavedir}")
+        if File.exists(initialloaddir) is False:
+            raise TypeError(f"Invalid path argument: {initialsavedir}")
         if isinstance(ssaobject, SubPackage) is False:
             raise TypeError(f"Invalid ssaobject type: {type(ssaobject)}")
 
@@ -68,14 +76,13 @@ class UserInterface:
         frame2.pack(side=tk.BOTTOM)
         tk.mainloop()
 
-    def tabs(self, parentframe):
-        """
+    def tabs(self, parentframe: Union[tk.Tk, tk.Frame, ttk.Frame]) -> ttk.Notebook:
+        """ Create the tabs on top of the screen containing each window.
 
-        Args:
-            parentframe: tk.Tk instance or tk.Frame instance to adopt this frame.
+        At the moment, the tabs used are "Home", "ScriptInfo", "V4Styles", "Events".
 
-        Returns: tab reference
-
+        :param parentframe: tk.Tk, tk.Frame or ttk.Frame instances to adopt this frame.
+        :returns : ttk.Notebook reference. The tabs containing all the windows.
         """
 
         tabcontrol = ttk.Notebook(parentframe)
@@ -93,8 +100,10 @@ class UserInterface:
 
         TabHome(parentframe=tabhome, ssaobject=self.ssaobject, initialsavedir=self.initialsavedir,
                 initialloaddir=self.initialloaddir)
+        return tabcontrol
 
     def close(self):
+        """ Button command to shutdown the process and it's children."""
         self.root.destroy()
 
 

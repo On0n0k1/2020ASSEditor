@@ -1,1 +1,1 @@
-__all__ = ["UserInterface", "TabHome"]
+__all__ = ["UserInterface", "TabHome", "TabScriptInfo"]

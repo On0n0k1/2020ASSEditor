@@ -27,16 +27,22 @@ __email__ = "stiltztinkerstein@gmail.com"
 __status__ = (["Prototype", "Development", "Production"])[2]
 
 import os
+from os import PathLike
+from typing import Union
 
 
+# Source for the types used https://docs.python.org/3/glossary.html#term-path-like-object and stackoverflow comments
 class FileManagement:
-    """
-        Object for managing file input and output.
-    """
-    def __init__(self, pathname=None):
-        """
-            :param pathname: Path for Input/Output folders. If not specified. It will use the default folder. Default
-            folder is 2020ASSEditor/Testing/
+    """ Object for managing file paths."""
+
+    def __init__(self, pathname: Union[None, str, bytes, PathLike] = None) -> None:
+        """ Object specially meant for managing file paths.
+
+        Declaring it with no arguments will make it choose '/2020ASSEditor/InputOutput' as the default Input and Output
+        paths.
+
+        :param pathname: Optional Path for Input/Output folders. If not specified. It will use the default folder.
+        Default folder is '2020ASSEditor/InputOutput/'
         """
 
         if pathname is not None:
@@ -57,7 +63,7 @@ class FileManagement:
             self.__outputlocation__ = self.connectpath(f"{thisplace}", "Output/")
 
     @staticmethod
-    def connectpath(path1, path2):
+    def connectpath(path1: Union[None, str, bytes, PathLike], path2: Union[None, str, bytes, PathLike]) -> str:
         """Trying to connect 2 paths in a way compatible for both windows and unix"""
         outpath = os.path.normcase(path1)
         outpath = os.path.join(outpath, os.path.normcase(path2))
@@ -65,36 +71,35 @@ class FileManagement:
         return outpath
 
     @staticmethod
-    def upperpath(path1):
+    def upperpath(path1: Union[str, PathLike]) -> str:
         """ Returns path1 upper directory."""
         return os.path.split(path1)[0]
 
     @staticmethod
-    def lastpathname(path1):
+    def lastpathname(path1: str) -> str:
         """ Returns path1 last name. Which will be a filename or an empty String."""
         return os.path.split(path1)[1]
 
     @staticmethod
-    def exists(path1):
-        # This is just to avoid a class importing both os.path and this file. Making it easier to read through.
+    def exists(path1: Union[str, bytes, PathLike]) -> bool:
+        # This is just to avoid a class importing both os.path and this file. Making it easier to read.
         """ Returns True if path1 is an existing path file."""
         return os.path.lexists(path1)
 
-    def __repr__(self):
-        saida = f"{self.__inputlocation__}    {os.path.isdir(self.__inputlocation__)}\n"
-        saida += f"{self.__outputlocation__}    {os.path.isdir(self.__outputlocation__)}"
+    def __repr__(self) -> str:
+        """ For debugging only."""
+        saida = f"{self.__inputlocation__}    {os.path.isdir(self.__inputlocation__)} Type = "
+        saida += f"{type(self.__inputlocation__)}\n"
+        saida += f"{self.__outputlocation__}    {os.path.isdir(self.__outputlocation__)} Type = "
+        saida += f"{type(self.__outputlocation__)}\n"
         return saida
 
-    def getinputpath(self):
-        """
-            Returns: What should be the Input file of 2020ASSEditor project.
-        """
+    def getinputpath(self) -> str:
+        """ Returns: What should be the Input file of 2020ASSEditor project."""
         return self.__inputlocation__
 
-    def getoutputpath(self):
-        """
-            Returns: What should be the output file of 2020ASSEditor project.
-        """
+    def getoutputpath(self) -> str:
+        """ Returns: What should be the output file of 2020ASSEditor project."""
         return self.__outputlocation__
 
 

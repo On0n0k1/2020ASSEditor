@@ -28,24 +28,28 @@ __status__ = (["Prototype", "Development", "Production"])[2]
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog as fd
+from typing import Union
+from os import PathLike
 
 from FileManagement.FileManagement import FileManagement as File
 from Dados.SubPackage import SubPackage
 
 
 class TabHome:
-    """
-        Frame that represents the first tab in UITools user interface.
-    """
+    """ Frame that represents the first tab in UITools user interface."""
 
-    def __init__(self, parentframe, ssaobject, initialsavedir=f"{__file__}", initialloaddir=f"{__file__}"):
-        """
-            Creates a home Frame using parentframe as parent widget.
-            Args:
-                parentframe: tk.TK instance or Frame instance.
-                ssaobject: Dados.SubPackage instance. Must be a reference for loading and saving.
-                initialsavedir: path for a save directory. Expected to be "InputOutput/Output"
-                initialloaddir: path for a load directory. Expected to be "InputOutput/Input"
+    def __init__(self,
+                 parentframe: Union[tk.Tk, tk.Frame, ttk.Frame],
+                 ssaobject: SubPackage,
+                 initialsavedir: Union[None, str, bytes, PathLike] = f"{__file__}",
+                 initialloaddir: Union[None, str, bytes, PathLike] = f"{__file__}",
+                 ) -> None:
+        """ Creates a home Frame using parentframe as parent widget.
+
+        :param parentframe: tk.TK instance or Frame instance.
+        :param ssaobject: Dados.SubPackage instance. Must be a reference for loading and saving.
+        :param initialsavedir: path for a save directory. Expected to be "InputOutput/Output"
+        :param initialloaddir: path for a load directory. Expected to be "InputOutput/Input"
         """
 
         # There must be a better way for checking if parentframe is a valid parent
@@ -76,7 +80,12 @@ class TabHome:
         printbutton = tk.Button(frame, text='Print loaded SSA Object', command=self.printfilebuttom)
         printbutton.pack(fill=tk.X, side=tk.TOP)
 
-    def openfilebuttom(self):
+    def openfilebuttom(self) -> None:
+        """ Method for 'opening files' Buttom in 'Home tab'.
+
+        :return: None
+        """
+
         name = fd.askopenfilename(parent=None, initialdir=self.initialloaddir, filetypes=(("SSA Files", "*.ass"),))
         if name == "" or name == ():
             pass
@@ -86,10 +95,22 @@ class TabHome:
             self.ssaobject.loadfile(f"{name}")
             # Will take loaded file name to use when saving
             self.savefilename = File.lastpathname(f"{name}")
+        return
 
-    def savefilebuttom(self):
-        name = fd.asksaveasfilename(parent=None, initialdir=self.initialsavedir, initialfile=self.savefilename,
-                                    filetypes=(("SSA Files", "*.ass"),))
+    def savefilebuttom(self) -> None:
+        """ Method for saving buttom in "Home tab".
+
+        Calls method savefile from self.ssaobject.
+
+        :return: None
+        """
+
+        name = fd.asksaveasfilename(parent=None,
+                                    initialdir=self.initialsavedir,
+                                    initialfile=self.savefilename,
+                                    filetypes=(("SSA Files", "*.ass"),)
+                                    )
+
         # print(name)
         # Not sure why. Pressing cancel sometimes return an empty tuple.
         if name == () or name == "":
@@ -98,6 +119,15 @@ class TabHome:
             self.ssaobject.savefile(name, overwrite=True)
 
     def printfilebuttom(self):
+        """ Print the stored ssa object in default output.
+
+        Will print each of the empty sections if there's no object stored.
+
+        Temporary method just for debugging.
+
+        :return: None.
+        """
+
         # By checking the __repr__ method, it's visible that the object will call all it's children __repr__ methods.
         # This isn't just printing the file. I will add edit tools to this window as soon as I'm able to make a rest
         # project. Which is currently a priority in terms of "hirability" for me.

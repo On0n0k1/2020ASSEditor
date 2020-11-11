@@ -21,9 +21,12 @@ delaying this until I can make an implementation that use the Ray multiprocessin
 Hopefully this readme will be useful in clearing every question the readers might have about the software.
 
 ## Table of Contents
+
 * [Title](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
+* [To-Do Priority List](https://github.com/On0n0k1/2020ASSEditor#to-do-priority-list)
 * [How to use the code](https://github.com/On0n0k1/2020ASSEditor#how-to-use-the-code)
-* [How it works](https://github.com/On0n0k1/2020ASSEditor#how-it-works)
+* [How it works: Data Structure](https://github.com/On0n0k1/2020ASSEditor#how-it-works)
+* [User Interface](https://github.com/On0n0k1/2020ASSEditor#user-interface)
 * [How to contribute](https://github.com/On0n0k1/2020ASSEditor#how-to-contribute)
 * [Why I will not completely finish this project](https://github.com/On0n0k1/2020ASSEditor#why-i-will-not-completely-finish-this-project)
 * [License](https://github.com/On0n0k1/2020ASSEditor#license)

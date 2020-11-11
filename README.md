@@ -29,6 +29,25 @@ Hopefully this readme will be useful in clearing every question the readers migh
 * [License](https://github.com/On0n0k1/2020ASSEditor#license)
 * [Developer Extra Note](https://github.com/On0n0k1/2020ASSEditor#developer-extra-note)
 
+## To-Do Priority List
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
+
+My priorities on what to fix next in this project. Ordered from the highest priority (top) to the lowest. Not that the 
+lowest is not important. It's just that the code being readable and working is my worst headache now. Not all the issues
+ are here.
+- Adding annotations to all objects and fixing docstrings.
+- Fixing V4Styles entire module. It was one of my first modules, and it's so bad that it's better to rewrite it from 
+scratch than trying to fix it.
+- Changing all module and variable names. I didn't give much focus on the naming part of pep8. My bad. As soon as I fix 
+the above issues I will rewrite all the names.
+- Finishing tkinter user interface. Will make tools to edit and add values individually eventually.
+- I have plans to add functions to edit multiple entries in a single call. One method to select all events that satisfy 
+a certain condition (i.e. events that the time is within a certain range) and another to edit all of them. That will 
+make me hit the multiprocessing issue as before. But it's a problem for later. 
+
+Personal Note: The project is not in a state that I would be proud to show off to companies all around. But I'm 
+currently unemployed. The sooner I can get a junior role wage anywhere my life will become a lot more stable. Sorry for 
+the rant.
 
 ## How to use the code
 [(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
@@ -99,7 +118,9 @@ of the text to it's children. For printing and saving, it will call it's childre
 incremented with more tools without making the rest of the code less readable. Later I will add the JSON for each of the
 objects below.
 
-### Interface
+### User Interface
+[(Back to the top)](https://github.com/On0n0k1/2020ASSEditor#2020asseditor)
+
 3 New folders were added recently: "FileManagement", "InputOutput" and "UITools"
 - FileManagement is meant to make it easier to use path-related tools by the other classes. Instead of using very 
 unintuitive commands from os.path module, just use Filemanagement methods to do those tasks without going crazy trying 

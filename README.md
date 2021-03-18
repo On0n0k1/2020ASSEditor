@@ -1,3 +1,7 @@
+# Quick note
+I dropped this project. It got way too complicated and bloated for such a simple problem. Also missing some info on a lot of details about the subtitles. So not worth finishing. It was great practice for oop in Python though.
+
+
 # 2020ASSEditor
 [(Table of Contents)](https://github.com/On0n0k1/2020ASSEditor#table-of-contents)
 
